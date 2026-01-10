@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="google-site-verification" content="IpvcAPGzK6C9UE_l6g0oF5IbxPjhDlKR3AKLSLBC118" />
+
+    <meta name="description" content="MA3 PRODUCTIONS - الموقع الرسمي للمبرمج مؤيد وفريق الأساطير: علي، أحمد، وعبد الحكيم.">
+    <meta name="keywords" content="MA3, Moayed, مؤيد, علي, برمجة, أغاني, ليبيا">
+    <meta name="author" content="Moayed">
+
     <title>MA3 PRODUCTIONS</title>
     
     <style>
@@ -97,11 +104,6 @@
             white-space: nowrap;
         }
 
-        nav button:hover {
-            background: rgba(79, 172, 254, 0.2);
-            transform: translateY(-2px);
-        }
-
         nav button.active {
             background: var(--main-color);
             color: var(--bg-dark);
@@ -130,11 +132,10 @@
 
         .card:hover {
             border-color: var(--main-color);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), 0 0 20px rgba(79, 172, 254, 0.2);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.2);
             transform: translateY(-10px);
         }
 
-        /* أنميشن الأصدقاء */
         .pyramid-container {
             display: flex;
             flex-direction: column;
@@ -151,24 +152,14 @@
             border: 1px solid rgba(79, 172, 254, 0.2);
             transition: 0.4s;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
 
-        /* تأثير النبض عند الضغط */
-        .friend-card:active {
-            transform: scale(0.92);
-        }
+        .friend-card:active { transform: scale(0.92); }
 
         .ali-top {
             width: 100%;
             max-width: 450px;
             border: 2px solid gold;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
-        }
-
-        .ali-top:hover {
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
         }
 
         .base-row {
@@ -185,22 +176,10 @@
             max-width: 300px;
         }
 
-        .friend-card:hover {
-            background: rgba(79, 172, 254, 0.1);
-            border-color: var(--main-color);
-            transform: translateY(-5px) scale(1.02);
-        }
-
         .admin-image {
             width: 160px; height: 160px;
             border-radius: 50%;
             border: 4px solid var(--main-color);
-            transition: 0.5s;
-        }
-
-        .card:hover .admin-image {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 30px var(--main-color);
         }
 
         footer { text-align: center; padding: 40px; opacity: 0.6; font-weight: bold; }
@@ -267,7 +246,7 @@
             <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" class="admin-image">
             <h2 style="font-size: 2.2rem; text-shadow: 0 0 10px var(--main-color);">مؤيد | MOAYED</h2>
             <p style="color: var(--main-color); font-weight: bold; font-size: 1.3rem;">The Mastermind of MA3</p>
-            <p style="line-height: 1.8; opacity: 0.9; padding: 0 15px;">المبرمج اللي ما يعرفش المستحيل، العقل المدبر وراء كل شفرة وكل فكرة أسطورية. إذا كان العالم كود، فـ مؤيد هو اللي يكتبه! 🔥</p>
+            <p style="line-height: 1.8; opacity: 0.9;">المبرمج اللي ما يعرفش المستحيل، العقل المدبر وراء كل شفرة وكل فكرة أسطورية. 🔥</p>
         </div>
     </div>
 
@@ -281,14 +260,11 @@
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.getElementById('btn-' + id).classList.add('active');
-        if (window.navigator.vibrate) window.navigator.vibrate(10);
     }
 
     function friendEffect(el) {
         el.style.transform = "scale(0.9) rotate(2deg)";
-        setTimeout(() => {
-            el.style.transform = "";
-        }, 150);
+        setTimeout(() => { el.style.transform = ""; }, 150);
     }
 </script>
 
