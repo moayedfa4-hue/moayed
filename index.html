@@ -43,7 +43,6 @@
         .ma3-text { font-size: clamp(3rem, 12vw, 6rem); font-weight: 900; letter-spacing: 15px; background: linear-gradient(to bottom, #fff, var(--main-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .productions-text { font-size: clamp(0.8rem, 3vw, 1.2rem); letter-spacing: 12px; color: var(--secondary-color); margin-top: 15px; }
 
-        /* التعديل الذكي للأزرار ليعمل على النقال والكمبيوتر */
         nav { 
             display: flex; 
             justify-content: center; 
@@ -55,18 +54,17 @@
             padding: 12px; 
             gap: 10px; 
             border-bottom: 1px solid rgba(79, 172, 254, 0.2); 
-            overflow-x: auto; /* يسمح بالتمرير إذا ضاقت الشاشة */
+            overflow-x: auto;
         }
         nav button {
-            flex: 1; /* يجعلها متساوية العرض */
-            min-width: fit-content; /* يحافظ على حجم النص */
+            flex: 1;
+            min-width: fit-content;
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(79, 172, 254, 0.3);
             color: var(--main-color); padding: 12px 22px; border-radius: 15px;
             cursor: pointer; font-weight: bold; transition: 0.4s;
-            white-space: nowrap; /* يمنع تداخل النص */
+            white-space: nowrap;
         }
 
-        /* لمسة خاصة للنقال لضمان التناسق التام */
         @media (max-width: 600px) {
             nav { padding: 10px 5px; gap: 5px; }
             nav button { padding: 10px 8px; font-size: 0.85rem; border-radius: 10px; }
@@ -130,11 +128,11 @@
     <button onclick="showSection('music')" id="btn-music" class="active">الأغاني</button>
     <button onclick="showSection('images')" id="btn-images">صور</button>
     <button onclick="showSection('friends')" id="btn-friends">الأصدقاء</button>
-    <button onclick="showSection('chat')" id="btn-chat">الدردشة 💬</button>
     <button onclick="showSection('dev')" id="btn-dev">المبرمج</button>
 </nav>
 
 <div class="container">
+    
     <div id="music" class="section active">
         <div class="media-card">
             <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png" width="230">
@@ -178,15 +176,6 @@
         </div>
     </div>
 
-    <div id="chat" class="section">
-        <div class="media-card">
-            <h2 style="color: var(--main-color);">💬 دردشة أسطورية 💬</h2>
-            <div style="height: 550px; border-radius: 25px; overflow: hidden; border: 1px solid var(--main-color);">
-                <iframe src="https://www5.cbox.ws/box/?boxid=960687&boxtag=Xz3qAf&nmcl=4facfe&vcl=00f2fe" width="100%" height="550" frameborder="0"></iframe>
-            </div>
-        </div>
-    </div>
-
     <div id="dev" class="section">
         <div class="media-card dev-card-main">
             <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" class="admin-image-main">
@@ -197,6 +186,7 @@
             </p>
         </div>
     </div>
+
 </div>
 
 <footer>© 2026 MA3 PRODUCTIONS - BY MOAYED</footer>
@@ -212,4 +202,3 @@
 </script>
 </body>
 </html>
-
