@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع عمك مؤيد الأسطورة</title>
+    <title>MA3 PRODUCTIONS</title>
     
     <style>
         :root {
@@ -32,12 +32,15 @@
 
         .welcome-header h1 {
             text-align: center;
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-size: clamp(2rem, 8vw, 3.5rem);
             background: linear-gradient(to right, var(--main-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            padding: 40px 10px;
-            text-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+            padding: 50px 10px;
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(79, 172, 254, 0.4);
         }
 
         nav {
@@ -124,11 +127,7 @@
             max-width: 300px;
         }
 
-        .friend-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--main-color);
-            background: rgba(79, 172, 254, 0.1);
-        }
+        .friend-card:hover { transform: translateY(-8px); border-color: var(--main-color); }
 
         .chat-wrapper {
             width: 100%;
@@ -143,16 +142,19 @@
             width: 160px; height: 160px;
             border-radius: 50%;
             border: 4px solid var(--main-color);
-            box-shadow: 0 0 20px var(--main-color);
+            box-shadow: 0 0 30px var(--main-color);
+            margin-bottom: 15px;
         }
 
         audio { width: 100%; filter: invert(90%) hue-rotate(180deg); margin-top: 15px; }
-        footer { text-align: center; padding: 40px; opacity: 0.3; }
+        footer { text-align: center; padding: 40px; opacity: 0.6; font-weight: bold; color: var(--main-color); }
     </style>
 </head>
 <body>
 
-<div class="welcome-header"><h1>موقع عمك مؤيد الأسطورة</h1></div>
+<div class="welcome-header">
+    <h1>MA3 PRODUCTIONS</h1>
+</div>
 
 <nav>
     <button onclick="showSection('music')" id="btn-music" class="active">الأغاني</button>
@@ -183,22 +185,11 @@
         <div class="pyramid-container">
             <div class="friend-card ali-top">
                 <h3 style="color: gold; margin: 0 0 10px 0; font-size: 1.8rem;">👑 علي 👑</h3>
-                <p style="margin: 0; line-height: 1.6; font-weight: 500;">
-                    علي مش مجرد صديق، هو السند والكتف اللي تركي عليه. <br>
-                    أصل النخوة والرجولة، والقلب الأبيض اللي ما يتغيرش بمرور السنين. <br>
-                    معدنه ذهب، وكلامه ميزان، ومكانه دايمًا فوق في القمة لأنه أسطورة حقيقية. ✨
-                </p>
+                <p style="margin: 0; line-height: 1.6;">علي مش مجرد صديق، هو السند والكتف اللي تركي عليه. معدنه ذهب، وكلامه ميزان، ومكانه دايمًا فوق في القمة.</p>
             </div>
-            
             <div class="base-row">
-                <div class="friend-card">
-                    <h3 style="margin: 0 0 10px 0;">أحمد</h3>
-                    <p style="margin: 0;">عكسك في كل شي</p>
-                </div>
-                <div class="friend-card">
-                    <h3 style="margin: 0 0 10px 0;">عبد الحكيم</h3>
-                    <p style="margin: 0;">ديما يعاند</p>
-                </div>
+                <div class="friend-card"><h3>أحمد</h3><p>عكسك في كل شي</p></div>
+                <div class="friend-card"><h3>عبد الحكيم</h3><p>ديما يعاند</p></div>
             </div>
         </div>
     </div>
@@ -215,14 +206,19 @@
     <div id="dev" class="section">
         <div class="card">
             <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" class="admin-image">
-            <h2>مؤيد</h2>
-            <p style="color: var(--main-color); font-weight: bold;">صانع الموقع وأسطورة الأساطير</p>
+            <h2 style="font-size: 2.2rem; color: #fff; text-shadow: 0 0 10px var(--main-color);">مؤيد | MOAYED</h2>
+            <p style="color: var(--main-color); font-weight: bold; font-size: 1.3rem; margin-top: 10px;">The Mastermind of MA3</p>
+            <p style="line-height: 1.8; font-size: 1.1rem; color: #e0e0e0; padding: 0 15px;">
+                المبرمج اللي ما يعرفش المستحيل، العقل المدبر وراء كل شفرة وكل فكرة أسطورية. <br>
+                بصمته هي اللي صنعت هاد الكيان، وذكاءه هو اللي حط MA3 في القمة. <br>
+                إذا كان العالم كود، فـ مؤيد هو اللي يكتبه! 🔥
+            </p>
         </div>
     </div>
 
 </div>
 
-<footer>POWERED BY MOAYED - 2026</footer>
+<footer>© 2026 MA3 PRODUCTIONS - ALL RIGHTS RESERVED BY MOAYED</footer>
 
 <script>
     function showSection(id) {
