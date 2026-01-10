@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع عمك مؤيد الأسطورة</title>
     
-    <meta property="og:title" content="موقع عمك مؤيد الأسطورة">
-    <meta property="og:image" content="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg">
-    <meta property="og:description" content="عالم مؤيد - الفخامة والتكنولوجيا">
-
     <style>
         :root {
             --main-color: #4facfe;
             --secondary-color: #00f2fe;
             --bg-dark: #02040a;
+            --chat-bg: #0a132e; 
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -28,10 +25,10 @@
             overflow-x: hidden;
         }
 
-        /* أنيميشن الانتقال بين القوائم */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); filter: blur(10px); }
-            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        /* تأثير التنقل الأسطوري (حركة مع تغبيش) */
+        @keyframes masterSlide {
+            0% { opacity: 0; transform: scale(0.95) translateY(30px); filter: blur(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
         .welcome-header h1 {
@@ -41,9 +38,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             padding: 40px 10px;
+            text-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
         }
 
-        /* القائمة وتأثيرات الأزرار */
         nav {
             display: flex;
             justify-content: center;
@@ -55,25 +52,25 @@
             padding: 12px;
             gap: 10px;
             border-bottom: 1px solid rgba(79, 172, 254, 0.2);
+            overflow-x: auto;
         }
 
         nav button {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(79, 172, 254, 0.3);
             color: var(--main-color);
-            padding: 12px 18px;
+            padding: 10px 18px;
             border-radius: 15px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
         }
 
-        /* تأثير عند الضغط */
-        nav button:active, .friend-card:active, .photo-card:active {
-            transform: scale(0.9);
-            background: var(--main-color);
-            color: white;
-            box-shadow: 0 0 30px var(--main-color);
+        /* تأثير النبض عند الضغط */
+        nav button:active {
+            transform: scale(0.85);
+            box-shadow: 0 0 25px var(--main-color);
         }
 
         nav button.active {
@@ -84,32 +81,37 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         
-        .section { 
-            display: none; 
-            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .section.active { display: block; }
+        /* تطبيق التأثير الأسطوري على الأقسام */
+        .section { display: none; }
+        .section.active { display: block; animation: masterSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
 
-        /* قسم المبرمج */
-        .admin-section {
+        .card {
             background: rgba(10, 19, 46, 0.6);
-            padding: 40px 20px;
+            padding: 30px;
             border-radius: 40px;
             text-align: center;
             border: 2px solid var(--main-color);
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-
-        .admin-image {
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            border: 4px solid var(--main-color);
-            object-fit: cover;
+            margin-bottom: 20px;
             transition: 0.4s;
-            box-shadow: 0 0 20px var(--main-color);
         }
 
-        /* تأثيرات الأصدقاء */
+        .card:hover { transform: translateY(-5px); box-shadow: 0 0 30px rgba(79, 172, 254, 0.3); }
+
+        .chat-card {
+            background: linear-gradient(145deg, rgba(10, 19, 46, 0.8), rgba(2, 4, 10, 0.9));
+            border: 2px solid var(--main-color);
+        }
+
+        .chat-wrapper {
+            width: 100%;
+            height: 550px;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(79, 172, 254, 0.4);
+            background: var(--chat-bg);
+        }
+
         .friends-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -124,100 +126,89 @@
             border: 1px solid rgba(79, 172, 254, 0.1);
             transition: 0.4s;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
 
         .friend-card:hover {
             border-color: var(--main-color);
             background: rgba(79, 172, 254, 0.1);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: scale(1.05);
         }
 
-        .friend-card h3 { transition: 0.3s; margin: 0; }
-        .friend-card:hover h3 { 
-            color: var(--main-color); 
-            text-shadow: 0 0 10px var(--main-color);
-            transform: scale(1.1);
-        }
-
-        /* تأثيرات الصور والأغاني */
-        .music-card, .photo-card {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 25px;
-            border-radius: 30px;
-            text-align: center;
-            border: 1px solid rgba(79, 172, 254, 0.1);
-            transition: 0.4s;
-        }
-
-        .photo-card img {
-            width: 100%;
-            max-width: 450px;
-            border-radius: 20px;
+        .admin-image {
+            width: 170px; height: 170px;
+            border-radius: 50%;
+            border: 4px solid var(--main-color);
+            box-shadow: 0 0 25px var(--main-color);
             transition: 0.5s;
-            border: 2px solid transparent;
         }
-
-        .photo-card:hover img {
-            border-color: var(--main-color);
-            box-shadow: 0 0 30px var(--main-color);
-            transform: scale(1.02);
-        }
+        
+        .admin-image:hover { transform: rotate(5deg) scale(1.1); }
 
         audio { width: 100%; filter: invert(90%) hue-rotate(180deg); margin-top: 20px; }
-
         footer { text-align: center; padding: 40px; opacity: 0.3; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<div class="welcome-header">
-    <h1>أهلاً بك في موقع عمك مؤيد للاغاني</h1>
-</div>
+<div class="welcome-header"><h1>موقع عمك مؤيد الأسطورة</h1></div>
 
 <nav>
     <button onclick="showSection('music')" id="btn-music" class="active">الأغاني</button>
     <button onclick="showSection('images')" id="btn-images">الصور</button>
     <button onclick="showSection('friends')" id="btn-friends">الأصدقاء</button>
+    <button onclick="showSection('chat')" id="btn-chat">الدردشة 💬</button>
     <button onclick="showSection('dev')" id="btn-dev">المبرمج</button>
 </nav>
 
 <div class="container">
     
-    <div id="dev" class="section">
-        <div class="admin-section">
-            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" alt="مؤيد" class="admin-image">
-            <div class="admin-info">
-                <span style="font-size: 3rem; display: block; margin-top: 15px;">👑</span>
-                <h2>مؤيد</h2>
-                <p style="color: var(--main-color); font-weight: bold; font-size: 1.3rem;">صانع الموقع وأسطورة الأساطير</p>
-                <p style="font-style: italic; opacity: 0.7;">الملك الحقيقي لهذا النطاق.</p>
-            </div>
-        </div>
-    </div>
-
     <div id="music" class="section active">
-        <div class="music-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png" width="250">
+        <div class="card">
+            <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png" width="230" style="border-radius: 20px;">
             <h2 style="color: var(--main-color);">Let It Happen</h2>
             <audio controls><source src="https://files.catbox.moe/abbogw.oga" type="audio/ogg"></audio>
         </div>
     </div>
 
     <div id="images" class="section">
-        <div class="photo-card">
-            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" alt="علي">
-            <p style="color: var(--main-color); margin-top: 20px; font-weight: bold; font-size: 1.2rem;">علي الصديق اللي مايغدركش بكل إلا في العركات</p>
+        <div class="card">
+            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:450px; border-radius: 20px;">
+            <p style="color: var(--main-color); margin-top: 20px; font-weight: bold;">علي الصديق اللي مايغدركش بكل إلا في العركات</p>
         </div>
     </div>
 
     <div id="friends" class="section">
         <div class="friends-list">
-            <div class="friend-card"><h3>أحمد</h3><p>الشخص اللي أي شي تقوله يكون عكسك</p></div>
-            <div class="friend-card"><h3>عبد الحكيم</h3><p>شخص كويس ديما يحب يعاندك</p></div>
+            <div class="friend-card"><h3>أحمد</h3><p>عكسك في كل شي</p></div>
+            <div class="friend-card"><h3>عبد الحكيم</h3><p>ديما يعاند</p></div>
             <div class="friend-card"><h3>علي العبد</h3><p>الصديق الوفي</p></div>
+        </div>
+    </div>
+
+    <div id="chat" class="section">
+        <div class="card chat-card">
+            <h2 style="color: var(--main-color); margin-bottom: 20px; text-shadow: 0 0 10px var(--main-color);">💬 دردشة 💬</h2>
+            <div class="chat-wrapper">
+                <iframe src="https://www5.cbox.ws/box/?boxid=960687&boxtag=Xz3qAf&nmcl=4facfe&vcl=00f2fe" 
+                        width="100%" height="550" 
+                        allowtransparency="yes" 
+                        allow="autoplay" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0" 
+                        scrolling="auto">
+                </iframe>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: var(--main-color);">الدردشة المباشرة.. أثبت وجودك!</p>
+        </div>
+    </div>
+
+    <div id="dev" class="section">
+        <div class="card">
+            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" class="admin-image">
+            <h2 style="margin-top: 20px;">مؤيد</h2>
+            <p style="color: var(--main-color); font-weight: bold; font-size: 1.2rem;">صانع الموقع وأسطورة الأساطير</p>
+            <p style="opacity: 0.6;">2026 - جميع الحقوق محفوظة</p>
         </div>
     </div>
 
@@ -227,20 +218,13 @@
 
 <script>
     function showSection(id) {
-        // إخفاء الأقسام بتأثير
-        const sections = document.querySelectorAll('.section');
-        const buttons = document.querySelectorAll('nav button');
-        
-        sections.forEach(s => s.classList.remove('active'));
-        buttons.forEach(b => b.classList.remove('active'));
-        
-        // إظهار القسم الجديد
-        const target = document.getElementById(id);
-        target.classList.add('active');
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
         document.getElementById('btn-' + id).classList.add('active');
         
-        // اهتزاز بسيط للموبايل عند التبديل لإعطاء شعور بالتفاعل
-        if (window.navigator.vibrate) window.navigator.vibrate(15);
+        // لمسة اهتزاز خفيفة للهواتف عند التنقل
+        if (window.navigator.vibrate) window.navigator.vibrate(10);
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
