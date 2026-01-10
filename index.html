@@ -61,7 +61,7 @@
             transition: 0.4s ease; cursor: pointer;
         }
         .media-card:hover { border-color: var(--main-color); transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .media-card img { transition: 0.4s; }
+        .media-card img { transition: 0.4s; border-radius: 20px; }
         .media-card:hover img { transform: scale(1.05); }
 
         .friends-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
@@ -99,7 +99,7 @@
 
 <nav>
     <button onclick="showSection('music')" id="btn-music" class="active">الأغاني</button>
-    <button onclick="showSection('images')" id="btn-images">الصور</button>
+    <button onclick="showSection('images')" id="btn-images">صور</button>
     <button onclick="showSection('friends')" id="btn-friends">الأصدقاء</button>
     <button onclick="showSection('chat')" id="btn-chat">الدردشة 💬</button>
     <button onclick="showSection('dev')" id="btn-dev">المبرمج</button>
@@ -109,15 +109,21 @@
     
     <div id="music" class="section active">
         <div class="media-card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png" width="230" style="border-radius: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png" width="230">
             <h2 style="color: var(--main-color);">Let It Happen</h2>
             <audio controls><source src="https://files.catbox.moe/abbogw.oga" type="audio/ogg"></audio>
+        </div>
+
+        <div class="media-card">
+            <img src="https://i.ibb.co/jPWmsn4Z/unnamed.jpg" width="230">
+            <h2 style="color: var(--main-color);">Duvet</h2>
+            <audio controls><source src="https://files.catbox.moe/5ry4b7.oga" type="audio/ogg"></audio>
         </div>
     </div>
 
     <div id="images" class="section">
         <div class="media-card">
-            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:450px; border-radius: 20px;">
+            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:450px;">
             <p style="color: var(--main-color); margin-top: 20px; font-weight: bold; font-size: 1.3rem;">علي المتميز ✨</p>
             <p style="opacity: 0.9;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة، سند حقيقي في كل الظروف.</p>
         </div>
