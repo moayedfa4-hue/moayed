@@ -67,21 +67,17 @@
             padding: 2px 10px; border-radius: 20px; margin-bottom: 4px; font-weight: 900; align-self: flex-start;
             box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
         }
-        .msg.mine .admin-badge-chat { align-self: flex-end; }
-        .is-vip img { border-color: var(--admin-color) !important; box-shadow: 0 0 12px var(--admin-color); }
-
         .msg-text { background: rgba(30, 41, 59, 0.7); padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; color: white; }
         .msg.mine .msg-text { background: var(--msg-mine); color: #020617; font-weight: 600; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 3000; align-items: center; justify-content: center; }
-        .modal-content { 
-            background: #0f172a; width: 90%; max-width: 380px; border-radius: 30px; border: 1px solid var(--glass); 
-            padding: 30px 20px; text-align: center; position: relative;
-        }
+        .modal-content { background: #0f172a; width: 90%; max-width: 380px; border-radius: 30px; border: 1px solid var(--glass); padding: 30px 20px; text-align: center; position: relative; }
 
-        .small-btn { padding: 10px 20px; border-radius: 12px; cursor: pointer; border: none; font-weight: bold; }
+        .small-btn { padding: 8px 16px; border-radius: 10px; cursor: pointer; border: none; font-weight: bold; font-size: 0.85rem; }
         .danger-btn { background: #ff4b2b; color: white; }
         .success-btn { background: var(--main-color); color: black; }
+
+        .admin-item { display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.03); border-radius:12px; margin-bottom:8px; border: 1px solid rgba(255,255,255,0.05); }
 
         footer { text-align: center; padding: 40px; opacity: 0.5; font-size: 0.75rem; color: var(--main-color); font-weight: bold; }
         audio { width: 100%; margin-top: 20px; border-radius: 15px; }
@@ -100,13 +96,9 @@
         <img id="modalImg" src="" style="width:100px; height:100px; border-radius:50%; border:3px solid var(--main-color); margin-bottom:15px; object-fit: cover;">
         <h2 id="modalName" style="margin:5px 0;"></h2>
         <p id="modalAdminBadge" class="hidden" style="color:var(--admin-color); font-weight:bold;">مبرمج الموقع 👑</p>
-        <p id="modalUid" style="font-family:monospace; font-size:0.7rem; opacity:0.3;" class="hidden"></p>
-        
         <div id="modalAdminTools" class="hidden" style="margin-top:15px; padding-top:15px; border-top:1px solid var(--glass); display: flex; gap: 5px; flex-direction: column;">
             <button id="modalBanBtn" class="danger-btn small-btn" style="width:100%">حظر المستخدم 🚫</button>
-            <button id="modalUnbanBtn" class="success-btn small-btn" style="width:100%; background: #2ecc71;">إلغاء الحظر ✅</button>
         </div>
-
         <div style="margin-top:20px; text-align:right;">
             <h4 style="color:var(--main-color); border-bottom:1px solid var(--glass); padding-bottom:5px;">الأغاني المفضلة ❤️</h4>
             <div id="modalFavsList" style="max-height:150px; overflow-y:auto; margin-top:10px; font-size:0.9rem;"></div>
@@ -157,12 +149,13 @@
                 <input id="nsSrc" type="text" placeholder="رابط ملف MP3" style="width:100%; padding:12px; margin:5px 0; border-radius:12px; background:rgba(0,0,0,0.3); border:1px solid var(--glass); color:white;">
                 <button class="success-btn small-btn" id="publishSongBtn" style="width:100%; margin-top:10px;">نشر الآن 🚀</button>
             </div>
+            
             <div style="margin-top:30px; text-align:right;">
-                <h3 style="color:var(--main-color)">إدارة الأغاني والمحظرين:</h3>
-                <div id="adminSongsList" style="margin-bottom: 20px;"></div>
-                <hr style="opacity: 0.1;">
-                <h3 style="color:var(--main-color); margin-top: 20px;">قائمة المحظورين:</h3>
-                <div id="bannedList" style="font-size:0.8rem; color:#ff4b2b;"></div>
+                <h3 style="color:var(--main-color); border-bottom:1px solid var(--glass); padding-bottom:5px;">🗑️ إدارة الأغاني المرفوعة</h3>
+                <div id="adminSongsList" style="margin-top:10px;"></div>
+                
+                <h3 style="color:var(--main-color); border-bottom:1px solid var(--glass); padding-bottom:5px; margin-top:30px;">🚫 إدارة المحظورين</h3>
+                <div id="bannedList" style="margin-top:10px;"></div>
             </div>
         </div>
     </div>
@@ -181,7 +174,6 @@
             <div id="user-ui" style="display: none;">
                 <img id="userPhoto" style="width:110px; height:110px; border-radius:50%; border:3px solid var(--main-color);">
                 <h2 id="userNameDisplay"></h2>
-                <div id="userUidDisplay" style="font-family:monospace; opacity:0.3; margin-top:10px;"></div>
                 <button onclick="logout()" class="danger-btn small-btn" style="margin-top:25px;">خروج</button>
             </div>
         </div>
@@ -205,11 +197,10 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
-    const ADMIN_EMAIL = "moayedfa4@gmail.com";
     const MOAYED_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2";
+    const ADMIN_EMAIL = "moayedfa4@gmail.com";
 
     let currentUser = null;
-    let localBanned = new Set();
     let favorites = JSON.parse(localStorage.getItem('ma3_favs')) || [];
     let allSongsMap = {};
 
@@ -218,99 +209,36 @@
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         if(document.getElementById('sideMenu').classList.contains('open')) toggleMenu();
-        window.scrollTo({top:0, behavior:'smooth'});
     };
 
-    function isAdmin(user) {
-        return user && (user.email === ADMIN_EMAIL || user.uid === MOAYED_UID);
-    }
+    const isAdmin = (u) => u && (u.uid === MOAYED_UID || u.email === ADMIN_EMAIL);
 
-    // --- الدردشة والبروفايل ---
-    const chatBox = document.getElementById('chat-box');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-
-    sendBtn.onclick = async () => {
-        const text = chatInput.value.trim();
-        if (!text || !currentUser || localBanned.has(currentUser.uid)) return;
-        await push(ref(db, 'messages'), {
-            text, name: currentUser.displayName, photo: currentUser.photoURL,
-            uid: currentUser.uid, time: serverTimestamp(), favs: favorites
-        });
-        chatInput.value = '';
-    };
-
+    // --- الدردشة ---
     onChildAdded(ref(db, 'messages'), (snap) => {
         const m = snap.val();
-        const msgId = snap.key;
-        const isMine = currentUser && m.uid === currentUser.uid;
-        const isVip = (m.uid === MOAYED_UID);
-        
         const msgDiv = document.createElement('div');
-        msgDiv.className = `msg ${isMine ? 'mine' : ''} ${isVip ? 'is-vip' : ''}`;
-        msgDiv.id = `msg-${msgId}`;
-        
-        let badge = isVip ? `<div class="admin-badge-chat">مبرمج الموقع 👑</div>` : '';
-        let del = isAdmin(currentUser) ? `<button onclick="deleteMessage('${msgId}')" style="background:none; border:none; color:#ff4b2b; font-size:0.6rem; cursor:pointer; margin-top:5px;">حذف</button>` : '';
-
+        msgDiv.className = `msg ${currentUser && m.uid === currentUser.uid ? 'mine' : ''}`;
+        msgDiv.id = `msg-${snap.key}`;
+        let delBtn = isAdmin(currentUser) ? `<button onclick="deleteMsg('${snap.key}')" style="background:none; border:none; color:red; font-size:10px;">حذف</button>` : '';
         msgDiv.innerHTML = `
-            <img src="${m.photo}" onclick="openUserProfile('${m.uid}', '${m.name}', '${m.photo}', ${JSON.stringify(m.favs || []).replace(/"/g, '&quot;')})">
-            <div class="msg-content">
-                ${badge}
-                <span style="font-size:0.7rem; opacity:0.6; margin-bottom:2px;">${m.name}</span>
+            <img src="${m.photo}" onclick="openUserProfile('${m.uid}', '${m.name}', '${m.photo}', ${JSON.stringify(m.favs || [])})">
+            <div>
+                <span style="font-size:10px; opacity:0.5;">${m.name}</span>
                 <div class="msg-text">${m.text}</div>
-                ${del}
-            </div>
-        `;
-        chatBox.appendChild(msgDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
+                ${delBtn}
+            </div>`;
+        document.getElementById('chat-box').appendChild(msgDiv);
+        document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
     });
 
-    onChildRemoved(ref(db, 'messages'), (snap) => {
-        const msgId = snap.key;
-        document.getElementById(`msg-${msgId}`)?.remove();
-    });
-
-    window.deleteMessage = (id) => { if(confirm('حذف الرسالة؟')) remove(ref(db, `messages/${id}`)); };
-
-    window.openUserProfile = (uid, name, photo, userFavs) => {
-        const modal = document.getElementById('userModal');
-        document.getElementById('modalImg').src = photo;
-        document.getElementById('modalName').innerText = name;
-        
-        if(uid === MOAYED_UID) document.getElementById('modalAdminBadge').classList.remove('hidden');
-        else document.getElementById('modalAdminBadge').classList.add('hidden');
-
-        if (isAdmin(currentUser)) {
-            document.getElementById('modalUid').innerText = `UID: ${uid}`;
-            document.getElementById('modalUid').classList.remove('hidden');
-            document.getElementById('modalAdminTools').classList.remove('hidden');
-            
-            document.getElementById('modalBanBtn').onclick = () => {
-                if(uid === MOAYED_UID || uid === currentUser.uid) return alert('يا مؤيد، لا يمكنك حظر نفسك! 😂');
-                if(confirm(`هل تريد حظر ${name}؟`)) set(ref(db, `banned/${uid}`), true);
-            };
-            
-            document.getElementById('modalUnbanBtn').onclick = () => {
-                if(confirm(`إلغاء حظر ${name}؟`)) remove(ref(db, `banned/${uid}`));
-            };
-
-        } else {
-            document.getElementById('modalUid').classList.add('hidden');
-            document.getElementById('modalAdminTools').classList.add('hidden');
+    window.deleteMsg = (key) => remove(ref(db, `messages/${key}`));
+    document.getElementById('sendBtn').onclick = async () => {
+        const t = document.getElementById('chatInput').value.trim();
+        if(t && currentUser) {
+            await push(ref(db, 'messages'), { text:t, name:currentUser.displayName, photo:currentUser.photoURL, uid:currentUser.uid, favs:favorites });
+            document.getElementById('chatInput').value = '';
         }
-
-        const favsDiv = document.getElementById('modalFavsList');
-        favsDiv.innerHTML = userFavs.length ? '' : 'لا توجد أغاني مفضلة بعد.';
-        userFavs.forEach(songId => {
-            const song = allSongsMap[songId];
-            if(song) favsDiv.innerHTML += `<div style="padding:5px; border-bottom:1px solid rgba(255,255,255,0.05)">🎵 ${song.title}</div>`;
-        });
-
-        modal.style.display = 'flex';
     };
-
-    window.closeUserModal = (e) => { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; };
 
     // --- الأغاني ---
     const staticSongs = [
@@ -318,114 +246,103 @@
         { id: "s2", title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" }
     ];
 
-    async function renderAllSongs() {
+    async function renderAll() {
         const list = document.getElementById('songsList');
-        const favList = document.getElementById('favSongsList');
         const adminList = document.getElementById('adminSongsList');
-        
-        list.innerHTML = ''; favList.innerHTML = ''; allSongsMap = {};
-        if(adminList) adminList.innerHTML = '';
+        list.innerHTML = ''; if(adminList) adminList.innerHTML = '';
         
         let all = [...staticSongs];
         const snap = await get(ref(db, 'songs'));
-        if (snap.exists()) snap.forEach(c => all.push({ id: c.key, ...c.val() }));
+        if(snap.exists()) snap.forEach(s => all.push({ id: s.key, ...s.val() }));
 
         all.reverse().forEach(s => {
             allSongsMap[s.id] = s;
+            const isF = favorites.includes(s.id);
             const card = document.createElement('div');
             card.className = 'media-card';
-            card.id = `card-${s.id}`;
-            const isF = favorites.includes(s.id);
             card.innerHTML = `
                 <span onclick="toggleFav('${s.id}')" style="position:absolute; top:15px; left:15px; font-size:25px; cursor:pointer; color:${isF ? '#ff4b2b' : 'rgba(255,255,255,0.1)'}">❤</span>
                 <img src="${s.img}" style="width:160px; height:160px; border-radius:20px; object-fit:cover;">
                 <h3>${s.title}</h3>
-                <audio controls src="${s.src}"></audio>
-            `;
+                <audio controls src="${s.src}"></audio>`;
             list.appendChild(card);
-            if(isF) favList.appendChild(card.cloneNode(true));
-            
-            // إضافة زر الحذف في لوحة التحكم للأغاني المرفوعة (Firebase فقط)
+
             if(isAdmin(currentUser) && adminList && s.id.startsWith('-')) {
-                const adminItem = document.createElement('div');
-                adminItem.style = "display:flex; justify-content:space-between; align-items:center; padding:10px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:5px;";
-                adminItem.innerHTML = `
-                    <span>🎵 ${s.title}</span>
-                    <button onclick="deleteSong('${s.id}')" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🗑️</button>
-                `;
-                adminList.appendChild(adminItem);
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `<span>🎵 ${s.title}</span> <button class="danger-btn small-btn" onclick="deleteSong('${s.id}')">حذف 🗑️</button>`;
+                adminList.appendChild(item);
             }
         });
     }
 
-    // وظيفة حذف الأغنية
-    window.deleteSong = async (id) => {
-        if(confirm('هل أنت متأكد من حذف هذه الأغنية نهائياً؟')) {
-            await remove(ref(db, `songs/${id}`));
-            renderAllSongs();
-            alert('تم حذف الأغنية بنجاح.');
-        }
+    window.deleteSong = (id) => confirm('حذف الأغنية؟') && remove(ref(db, `songs/${id}`)).then(renderAll);
+    window.toggleFav = (id) => {
+        favorites = favorites.includes(id) ? favorites.filter(f => f!==id) : [...favorites, id];
+        localStorage.setItem('ma3_favs', JSON.stringify(favorites));
+        renderAll();
     };
 
-    window.toggleFav = (id) => {
-        favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
-        localStorage.setItem('ma3_favs', JSON.stringify(favorites));
-        renderAllSongs();
+    // --- الحظر ---
+    onValue(ref(db, 'banned'), (snap) => {
+        const list = document.getElementById('bannedList');
+        if(list) list.innerHTML = '';
+        snap.forEach(s => {
+            if(currentUser && currentUser.uid === s.key) {
+                document.getElementById('chatControls').classList.add('hidden');
+                document.getElementById('blockedNotice').style.display = 'block';
+            }
+            if(isAdmin(currentUser) && list) {
+                const item = document.createElement('div');
+                item.className = 'admin-item';
+                item.innerHTML = `<span>👤 ID: ${s.key.substring(0,8)}...</span> <button class="success-btn small-btn" onclick="unban('${s.key}')">إلغاء حظر ✅</button>`;
+                list.appendChild(item);
+            }
+        });
+    });
+
+    window.unban = (uid) => confirm('إلغاء حظر المستخدم؟') && remove(ref(db, `banned/${uid}`));
+    window.openUserProfile = (uid, name, photo, favs) => {
+        document.getElementById('modalImg').src = photo;
+        document.getElementById('modalName').innerText = name;
+        document.getElementById('modalAdminBadge').className = (uid === MOAYED_UID) ? '' : 'hidden';
+        document.getElementById('modalAdminTools').className = (isAdmin(currentUser) && uid !== currentUser.uid) ? '' : 'hidden';
+        document.getElementById('modalBanBtn').onclick = () => confirm('حظر؟') && set(ref(db, `banned/${uid}`), true);
+        
+        const fList = document.getElementById('modalFavsList');
+        fList.innerHTML = favs.map(id => allSongsMap[id] ? `<div>🎵 ${allSongsMap[id].title}</div>` : '').join('');
+        document.getElementById('userModal').style.display = 'flex';
     };
 
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
-        if (user) {
+        if(user) {
             document.getElementById('user-ui').style.display = 'block';
             document.getElementById('auth-ui').style.display = 'none';
             document.getElementById('userNameDisplay').innerText = user.displayName;
             document.getElementById('userPhoto').src = user.photoURL;
             document.getElementById('sideUserName').innerText = user.displayName;
             document.getElementById('sideUserImg').src = user.photoURL;
-            if (isAdmin(user)) {
+            if(isAdmin(user)) {
                 document.getElementById('adminPanelLink').style.display = 'block';
                 document.getElementById('uploaderArea').classList.remove('hidden');
                 document.getElementById('sideAdminLabel').classList.remove('hidden');
-                document.getElementById('userUidDisplay').innerText = `ID: ${user.uid}`;
             }
-            renderAllSongs(); // إعادة الرندر بعد تسجيل الدخول لرؤية أزرار الحذف
-        }
-    });
-
-    onValue(ref(db, 'banned'), (snap) => {
-        localBanned = new Set();
-        const bDiv = document.getElementById('bannedList');
-        if(bDiv) bDiv.innerHTML = '';
-        snap.forEach(s => {
-            localBanned.add(s.key);
-            if(bDiv) bDiv.innerHTML += `<div style="margin-bottom:5px;">UID: ${s.key} <button onclick="remove(ref(db, 'banned/${s.key}'))" style="background:none; border:none; color:cyan; cursor:pointer; font-size:0.7rem;">[إلغاء الحظر]</button></div>`;
-        });
-        if(currentUser && localBanned.has(currentUser.uid)) {
-            document.getElementById('chatControls').style.display = 'none';
-            document.getElementById('blockedNotice').style.display = 'block';
-        } else {
-            document.getElementById('chatControls').style.display = 'flex';
-            document.getElementById('blockedNotice').style.display = 'none';
+            renderAll();
         }
     });
 
     window.login = () => signInWithPopup(auth, new GoogleAuthProvider());
     window.logout = () => signOut(auth).then(() => location.reload());
-    document.getElementById('publishSongBtn').onclick = async () => {
+    document.getElementById('publishSongBtn').onclick = () => {
         const title = document.getElementById('nsTitle').value;
         const img = document.getElementById('nsImg').value;
         const src = document.getElementById('nsSrc').value;
-        if (title && src && isAdmin(currentUser)) {
-            await push(ref(db, 'songs'), { title, img, src });
-            alert('تم النشر!');
-            document.getElementById('nsTitle').value = '';
-            document.getElementById('nsImg').value = '';
-            document.getElementById('nsSrc').value = '';
-            renderAllSongs();
-        }
+        if(title && src) push(ref(db, 'songs'), {title, img, src}).then(renderAll);
     };
 
-    renderAllSongs();
+    renderAll();
 </script>
 </body>
 </html>
+
