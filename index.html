@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="OZxxkNI7ZYWW6G_p2hM3_LzBf_4A4A4A4A4A4A4A4A"> 
     <title>MA3 PRODUCTIONS | MOAYED</title>
     
     <style>
@@ -13,12 +14,12 @@
             --glass: rgba(255, 255, 255, 0.05);
         }
 
-        /* تحسين الفريمات والأداء */
+        /* تحسين الأداء والفريمات */
         * { 
             box-sizing: border-box; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             outline: none;
-            backface-visibility: hidden;
+            backface-visibility: hidden; /* لزيادة سلاسة الأنميشن */
         }
         
         body {
@@ -73,7 +74,7 @@
             text-align: center; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05);
             position: relative;
         }
-        .media-card:hover { border-color: var(--main-color); background: rgba(255,255,255,0.04); transform: scale(1.02); }
+        .media-card:hover { border-color: var(--main-color); background: rgba(255,255,255,0.04); transform: scale(1.02); box-shadow: 0 0 20px rgba(79, 172, 254, 0.1); }
 
         /* ستايل الدردشة المطور */
         #chat-box { height: 450px; overflow-y: auto; background: rgba(0,0,0,0.4); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
@@ -83,7 +84,8 @@
         .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.4; position: relative; }
         .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: bold; border-top-right-radius: 2px; }
         
-        .admin-label { color: var(--admin-color); font-size: 0.7rem; font-weight: 900; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
+        /* لقب مبرمج الموقع في الدردشة */
+        .admin-label { color: var(--admin-color); font-size: 0.75rem; font-weight: 900; display: block; margin-bottom: 3px; border-bottom: 1px solid rgba(255, 215, 0, 0.2); padding-bottom: 2px; }
         .admin-tools { margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; gap: 10px; display: flex; }
 
         footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; }
@@ -248,6 +250,7 @@
             document.getElementById('userNameDisplay').innerText = user.displayName;
             document.getElementById('sideUserImg').src = user.photoURL;
             document.getElementById('sideUserName').innerText = user.displayName;
+            // تفعيل رتبة الآدمن في القائمة الجانبية
             if(user.uid === ADMIN_UID || user.email === ADMIN_EMAIL) document.getElementById('adminBadge').style.display = 'block';
         }
         renderSongs();
@@ -285,6 +288,7 @@
         const renderMsg = () => {
             const isAdmin = auth.currentUser && (auth.currentUser.uid === ADMIN_UID || auth.currentUser.email === ADMIN_EMAIL);
             const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
+            // التحقق هل صاحب الرسالة هو المبرمج؟
             const isMsgAdmin = (m.uid === ADMIN_UID || m.email === ADMIN_EMAIL);
             
             const msgDiv = document.createElement('div');
