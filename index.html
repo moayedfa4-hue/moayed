@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="OZxxkNI7ZYWW6G_p2hM3_LzBf_4A4A4A4A4A4A4A4A"> 
     <title>MA3 PRODUCTIONS | MOAYED</title>
     
     <style>
@@ -12,15 +11,13 @@
             --admin-color: #ffd700;
             --bg-dark: #02040a;
             --glass: rgba(255, 255, 255, 0.05);
-            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* تحسين الفريمات وسلاسة الحركة */
+        /* تحسين الفريمات والأداء */
         * { 
             box-sizing: border-box; 
-            transition: var(--transition); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             outline: none;
-            -webkit-font-smoothing: antialiased;
             backface-visibility: hidden;
         }
         
@@ -39,92 +36,72 @@
         header {
             position: fixed; top: 0; width: 100%; padding: 15px 25px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(10, 19, 46, 0.85); backdrop-filter: blur(25px);
+            background: rgba(10, 19, 46, 0.9); backdrop-filter: blur(20px);
             z-index: 1000; border-bottom: 1px solid rgba(79, 172, 254, 0.2);
-            will-change: transform;
         }
 
         .side-menu {
             position: fixed; top: 0; right: -280px; width: 280px; height: 100vh;
-            background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(40px);
+            background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(35px);
             z-index: 2000; border-left: 2px solid var(--main-color);
-            display: flex; flex-direction: column; padding-bottom: 50px;
+            display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 50px;
         }
-        .side-menu.open { right: 0; box-shadow: -15px 0 40px rgba(0,0,0,0.7); }
+        .side-menu.open { right: 0; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
 
         .menu-profile { padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--glass); }
-        .menu-profile img { 
-            width: 95px; height: 95px; border-radius: 50%; 
-            border: 3px solid var(--main-color); 
-            box-shadow: 0 0 25px rgba(79, 172, 254, 0.4); 
-        }
+        .menu-profile img { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--main-color); box-shadow: 0 0 20px var(--main-color); }
         
         .admin-badge { 
             background: linear-gradient(45deg, #ffd700, #ffa500); color: black; 
-            font-size: 0.75rem; padding: 4px 14px; border-radius: 20px; 
-            font-weight: 900; display: none; margin: 12px auto; width: fit-content;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; 
+            font-weight: bold; display: none; margin: 12px auto; width: fit-content;
         }
 
         .side-menu button {
-            width: 88%; margin: 8px auto; padding: 14px; text-align: right;
-            background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
-            color: #eee; cursor: pointer; border-radius: 12px; font-size: 1rem;
+            width: 88%; margin: 8px auto; padding: 15px; text-align: right;
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.08);
+            color: #eee; cursor: pointer; border-radius: 15px; font-size: 1rem;
         }
-        .side-menu button:hover { 
-            background: var(--main-color); color: black; 
-            transform: translateX(-8px); font-weight: bold;
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
-        }
+        .side-menu button:hover { background: var(--main-color); color: black; transform: translateX(-5px); font-weight: bold; }
 
-        .container { max-width: 900px; margin: 110px auto 40px; padding: 20px; }
-        .section { display: none; will-change: opacity, transform; }
-        .section.active { display: block; animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        .container { max-width: 1000px; margin: 110px auto 40px; padding: 20px; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeInUp 0.6s ease-out; }
 
         .media-card {
-            background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px;
-            text-align: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.06);
-            position: relative; overflow: hidden;
+            background: rgba(255, 255, 255, 0.02); padding: 30px; border-radius: 35px;
+            text-align: center; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
         }
-        .media-card:hover { 
-            border-color: var(--main-color); 
-            background: rgba(255,255,255,0.06); 
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
+        .media-card:hover { border-color: var(--main-color); background: rgba(255,255,255,0.04); transform: scale(1.02); }
 
-        .fav-btn { position: absolute; top: 20px; left: 20px; font-size: 28px; cursor: pointer; color: rgba(255,255,255,0.15); z-index: 10; }
-        .fav-btn.active { color: #ff4b2b; filter: drop-shadow(0 0 8px #ff4b2b); transform: scale(1.2); }
-
-        /* شات احترافي */
-        #chat-box { height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--glass); }
-        .msg { display: flex; gap: 12px; max-width: 85%; align-items: flex-start; animation: fadeInUp 0.4s ease; }
+        /* ستايل الدردشة المطور */
+        #chat-box { height: 450px; overflow-y: auto; background: rgba(0,0,0,0.4); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .msg { display: flex; gap: 12px; max-width: 85%; align-items: flex-start; }
         .msg.mine { align-self: flex-end; flex-direction: row-reverse; }
         .msg img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--main-color); }
-        .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; border: 1px solid rgba(255,255,255,0.05); }
-        .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: 600; border-top-right-radius: 2px; }
+        .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.4; position: relative; }
+        .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: bold; border-top-right-radius: 2px; }
         
-        .admin-tools { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; display: flex; gap: 15px; }
+        .admin-label { color: var(--admin-color); font-size: 0.7rem; font-weight: 900; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-tools { margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; gap: 10px; display: flex; }
 
-        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* تحسين الصوتيات */
-        audio { height: 35px; margin-top: 15px; filter: invert(100%) hue-rotate(180deg) brightness(1.5); opacity: 0.8; }
+        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 900; color: var(--main-color); font-size: 1.4rem; letter-spacing: 1px;">MA3 PRODUCTIONS</div>
-    <div onclick="toggleMenu()" style="font-size:35px; cursor:pointer; color: var(--main-color); padding: 5px;">☰</div>
+    <div style="font-weight: 900; color: var(--main-color); font-size: 1.3rem;">MA3 PRODUCTIONS</div>
+    <div onclick="toggleMenu()" style="font-size:35px; cursor:pointer; color: var(--main-color);">☰</div>
 </header>
 
 <div class="side-menu" id="sideMenu">
-    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold; text-align: left;" onclick="toggleMenu()">✖</div>
+    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق القائمة</div>
     <div class="menu-profile">
         <div id="adminBadge" class="admin-badge">مبرمج الموقع 👑</div>
         <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <h3 id="sideUserName" style="margin-top:15px; font-weight: 600;">زائر</h3>
+        <h3 id="sideUserName" style="margin-top:10px;">زائر</h3>
     </div>
     <button onclick="showSection('music')">🎧 المكتبة الموسيقية</button>
     <button onclick="showSection('favorites')">❤️ الأغاني المفضلة</button>
@@ -141,51 +118,47 @@
 
     <div id="chat" class="section">
         <div class="media-card" style="padding:15px;">
-            <h2 style="color: var(--main-color); margin-bottom:15px; font-weight: 800;">الدردشة العامة 💬</h2>
+            <h2 style="color: var(--main-color); margin-bottom:15px;">الدردشة العامة 💬</h2>
             <div id="chat-box"></div>
             <div style="display: flex; gap: 10px; margin-top:20px;">
-                <input type="text" id="chatInput" placeholder="اكتب رسالة هنا..." style="flex:1; padding:16px; border-radius:18px; background:rgba(255,255,255,0.07); color:white; border:1px solid rgba(255,255,255,0.1); font-size: 1rem;">
-                <button id="sendBtn" style="padding:0 28px; border-radius:18px; background:var(--main-color); border:none; font-weight:900; cursor:pointer; color:black;">إرسال</button>
+                <input type="text" id="chatInput" placeholder="اكتب رسالة..." style="flex:1; padding:15px; border-radius:15px; background:var(--glass); color:white; border:1px solid rgba(255,255,255,0.1);">
+                <button id="sendBtn" style="padding:0 25px; border-radius:15px; background:var(--main-color); border:none; font-weight:bold; cursor:pointer; color:black;">إرسال</button>
             </div>
         </div>
     </div>
 
     <div id="images" class="section">
         <div class="media-card">
-            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:480px; border-radius:30px; border: 2px solid var(--main-color); box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
-            <h2 style="margin-top:30px; color: var(--main-color); font-size: 1.8rem;">علي المتميز ✨</h2>
-            <p style="font-size: 1.2rem; line-height:1.8; opacity:0.9; padding: 0 20px;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي يعكس معنى الأخوة الحقيقية في كل موقف.</p>
+            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:480px; border-radius:30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <h2 style="margin-top:25px; color: var(--main-color);">علي المتميز ✨</h2>
+            <p style="font-size: 1.1rem; line-height:1.8; opacity:0.9;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي يعكس معنى الأخوة الحقيقية.</p>
         </div>
     </div>
 
     <div id="friends" class="section">
-        <div class="media-card"><h3>علي</h3><p>الأسطورة والسند. صاحب المعدن الأصيل وقلب الأسد الذي لا يهاب.</p></div>
-        <div class="media-card"><h3>أحمد</h3><p>رفيق الدرب وروح القعدة. طاقة إيجابية وابتسامة لا تغيب عن الوجوه.</p></div>
-        <div class="media-card"><h3>عبد الحكيم</h3><p>عقلية ذهبية وقلب أبيض. الأخ الذي لم تلده أمي وكاتم الأسرار.</p></div>
+        <div class="media-card"><h3>علي</h3><p>الأسطورة والسند. صاحب المعدن الأصيل وقلب الأسد.</p></div>
+        <div class="media-card"><h3>أحمد</h3><p>رفيق الدرب وروح القعدة. طاقة إيجابية وابتسامة لا تغيب.</p></div>
+        <div class="media-card"><h3>عبد الحكيم</h3><p>عقلية ذهبية وقلب أبيض. الأخ الذي لم تلده أمي.</p></div>
     </div>
 
     <div id="dev" class="section">
         <div class="media-card">
-            <div style="position: relative; display: inline-block;">
-                <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:165px; height:165px; border-radius:50%; border:4px solid var(--main-color); box-shadow: 0 0 30px var(--main-color);">
-                <div style="position: absolute; bottom: 5px; right: 5px; background: var(--admin-color); color: black; padding: 5px; border-radius: 50%; font-size: 1.2rem;">👑</div>
-            </div>
-            <h2 style="margin-top:25px; font-size: 2rem;">مؤيد | MOAYED</h2>
-            <p style="color:var(--admin-color); font-weight:900; font-size:1.3rem; letter-spacing: 1px;">مبـرمج الموقـع</p>
-            <p style="padding:10px 40px; opacity:0.8; line-height:1.7; font-size: 1.1rem;">العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة وأهتم بأدق التفاصيل لتقديم أفضل تجربة للمستخدم.</p>
+            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:160px; height:160px; border-radius:50%; border:4px solid var(--main-color); box-shadow: 0 0 25px var(--main-color);">
+            <h2 style="margin-top:20px;">مؤيد | MOAYED</h2>
+            <p style="color:var(--admin-color); font-weight:bold; font-size:1.2rem;">مبـرمج الموقـع 👑</p>
+            <p style="padding:0 30px; opacity:0.8; line-height:1.6;">العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة وأهتم بأدق التفاصيل لتقديم أفضل تجربة.</p>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="media-card">
             <div id="auth-ui">
-                <p style="margin-bottom: 20px; opacity: 0.7;">يجب تسجيل الدخول للوصول لكامل الصلاحيات</p>
-                <button onclick="login()" style="padding:18px 45px; border-radius:50px; background:white; color:black; font-weight:900; border:none; cursor:pointer; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(255,255,255,0.1);">Sign in with Google</button>
+                <button onclick="login()" style="padding:16px 40px; border-radius:50px; background:white; color:black; font-weight:bold; border:none; cursor:pointer;">Sign in with Google</button>
             </div>
             <div id="user-ui" style="display: none;">
-                <img id="userPhoto" src="" style="width:110px; height:110px; border-radius:50%; border:4px solid var(--main-color);">
-                <h2 id="userNameDisplay" style="margin: 15px 0;"></h2>
-                <button onclick="logout()" style="color:#ff4b2b; font-weight:bold; background:rgba(255,75,43,0.1); border:none; padding: 10px 25px; border-radius: 12px; cursor:pointer;">تسجيل الخروج</button>
+                <img id="userPhoto" src="" style="width:110px; border-radius:50%; border:3px solid var(--main-color);">
+                <h2 id="userNameDisplay"></h2>
+                <button onclick="logout()" style="color:#ff4b2b; font-weight:bold; background:none; border:none; cursor:pointer;">تسجيل الخروج</button>
             </div>
         </div>
     </div>
@@ -224,10 +197,10 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.deleteMsg = (key) => { if(confirm("حذف الرسالة نهائياً؟")) remove(ref(db, `messages/${key}`)); };
+    window.deleteMsg = (key) => { if(confirm("حذف الرسالة؟")) remove(ref(db, `messages/${key}`)); };
     window.banUser = (uid, name) => {
-        if(uid === auth.currentUser.uid) return alert("لا يمكن حظر النفس!");
-        if(confirm(`حظر ${name} من الدردشة؟`)) set(ref(db, `bannedUsers/${uid}`), { name: name, by: "Admin", date: new Date().toISOString() });
+        if(uid === auth.currentUser.uid) return alert("لا يمكنك حظر نفسك!");
+        if(confirm(`هل تريد حظر ${name}؟`)) set(ref(db, `bannedUsers/${uid}`), { name: name, time: serverTimestamp() }).then(()=>alert("تم الحظر"));
     };
 
     const songs = [
@@ -249,8 +222,8 @@
         document.getElementById('songsList').innerHTML = songs.map(s => `
             <div class="media-card">
                 <span class="fav-btn ${favorites.includes(s.id)?'active':''}" onclick="window.toggleFav(${s.id})">❤</span>
-                <img src="${s.img}" width="190" style="border-radius:22px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
-                <h3 style="margin-top: 20px;">${s.title}</h3>
+                <img src="${s.img}" width="190" style="border-radius:20px;">
+                <h3>${s.title}</h3>
                 <audio controls style="width:100%"><source src="${s.src}"></audio>
             </div>
         `).join('');
@@ -261,10 +234,10 @@
         const favData = songs.filter(s => favorites.includes(s.id));
         document.getElementById('favSongsList').innerHTML = favData.length ? favData.map(s => `
             <div class="media-card"><img src="${s.img}" width="150" style="border-radius:20px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
-        `).join('') : '<p style="opacity:0.4; padding:40px;">لا توجد أغاني في المفضلة بعد</p>';
+        `).join('') : '<p style="opacity:0.5;">المفضلة فارغة</p>';
     }
 
-    window.login = () => signInWithPopup(auth, provider).catch(err => console.error(err));
+    window.login = () => signInWithPopup(auth, provider);
     window.logout = () => signOut(auth).then(() => location.reload());
 
     onAuthStateChanged(auth, (user) => {
@@ -275,9 +248,7 @@
             document.getElementById('userNameDisplay').innerText = user.displayName;
             document.getElementById('sideUserImg').src = user.photoURL;
             document.getElementById('sideUserName').innerText = user.displayName;
-            if(user.uid === ADMIN_UID || user.email === ADMIN_EMAIL) {
-                document.getElementById('adminBadge').style.display = 'block';
-            }
+            if(user.uid === ADMIN_UID || user.email === ADMIN_EMAIL) document.getElementById('adminBadge').style.display = 'block';
         }
         renderSongs();
     });
@@ -287,18 +258,17 @@
     const chatBox = document.getElementById('chat-box');
 
     const sendMessage = async () => {
-        if(!auth.currentUser) return alert("يرجى تسجيل الدخول!");
+        if(!auth.currentUser) return alert("سجل دخولك!");
         const bannedCheck = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
-        if(bannedCheck.exists()) return alert("أنت محظور من الدردشة 🚫");
-
+        if(bannedCheck.exists()) return alert("أنت محظور 🚫");
         if(chatInput.value.trim()) {
-            push(ref(db, 'messages'), {
-                text: chatInput.value,
-                name: auth.currentUser.displayName,
-                photo: auth.currentUser.photoURL,
-                uid: auth.currentUser.uid,
+            push(ref(db, 'messages'), { 
+                text: chatInput.value, 
+                name: auth.currentUser.displayName, 
+                photo: auth.currentUser.photoURL, 
+                uid: auth.currentUser.uid, 
                 email: auth.currentUser.email,
-                time: serverTimestamp()
+                time: serverTimestamp() 
             });
             chatInput.value = "";
         }
@@ -307,7 +277,7 @@
     sendBtn.onclick = sendMessage;
     chatInput.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
 
-    const q = query(ref(db, 'messages'), limitToLast(60));
+    const q = query(ref(db, 'messages'), limitToLast(50));
     onChildAdded(q, (data) => {
         const m = data.val();
         const key = data.key;
@@ -321,16 +291,17 @@
             msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
             msgDiv.id = "msg-" + key;
             msgDiv.innerHTML = `
-                <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" loading="lazy">
+                <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
                 <div class="msg-text">
-                    <small style="color:${isMsgAdmin ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:900; display:block; margin-bottom:4px; font-size:0.85rem;">
-                        ${isMsgAdmin ? 'مبرمج الموقع 👑' : m.name}
+                    ${isMsgAdmin ? '<span class="admin-label">مبرمج الموقع 👑</span>' : ''}
+                    <small style="color:${isMsgAdmin ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:bold; display:block;">
+                        ${m.name}
                     </small>
                     ${m.text}
                     ${isAdmin ? `
                     <div class="admin-tools">
                         <span style="color:#ff4b2b; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="deleteMsg('${key}')">🗑️ حذف</span>
-                        ${!isMsgAdmin ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
+                        ${!isMsgAdmin ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold; margin-right:15px;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
                     </div>` : ''}
                 </div>`;
             chatBox.appendChild(msgDiv);
