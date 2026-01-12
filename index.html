@@ -82,7 +82,7 @@
         .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.4; position: relative; }
         .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: bold; border-top-right-radius: 2px; }
         
-        .admin-tools { display: none; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; gap: 10px; }
+        .admin-tools { margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; gap: 10px; display: flex; }
 
         footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; }
     </style>
@@ -271,27 +271,46 @@
     onChildAdded(q, (data) => {
         const m = data.val();
         const key = data.key;
-        const isAdmin = auth.currentUser && auth.currentUser.uid === ADMIN_UID;
-        const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
         
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
-        msgDiv.innerHTML = `
-            <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
-            <div class="msg-text">
-                <small style="color:${m.uid === ADMIN_UID ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:bold; display:block;">
-                    ${m.uid === ADMIN_UID ? 'مبرمج الموقع 👑' : m.name}
-                </small>
-                ${m.text}
-                ${isAdmin ? `
-                <div style="margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px;">
-                    <span style="color:#ff4b2b; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="deleteMsg('${key}')">🗑️ حذف</span>
-                    ${m.uid !== ADMIN_UID ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold; margin-right:15px;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
-                </div>` : ''}
-            </div>`;
-        chatBox.appendChild(msgDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        const renderMsg = () => {
+            const isAdmin = auth.currentUser && auth.currentUser.uid === ADMIN_UID;
+            const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
+            msgDiv.id = "msg-" + key;
+            msgDiv.innerHTML = `
+                <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
+                <div class="msg-text">
+                    <small style="color:${m.uid === ADMIN_UID ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:bold; display:block;">
+                        ${m.uid === ADMIN_UID ? 'مبرمج الموقع 👑' : m.name}
+                    </small>
+                    ${m.text}
+                    ${isAdmin ? `
+                    <div class="admin-tools">
+                        <span style="color:#ff4b2b; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="deleteMsg('${key}')">🗑️ حذف</span>
+                        ${m.uid !== ADMIN_UID ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold; margin-right:15px;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
+                    </div>` : ''}
+                </div>`;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
+
+        renderMsg();
+
+        onAuthStateChanged(auth, () => {
+            const el = document.getElementById("msg-" + key);
+            if(el) { el.remove(); renderMsg(); }
+        });
     });
+
+    // حذف الرسائل من الشاشة عند حذفها من الداتابيز
+    import { onChildRemoved } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    onChildRemoved(ref(db, 'messages'), (data) => {
+        const el = document.getElementById("msg-" + data.key);
+        if(el) el.remove();
+    });
+
 </script>
 </body>
 </html>
