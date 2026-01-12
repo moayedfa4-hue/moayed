@@ -32,6 +32,7 @@
 
         .menu-btn { font-size: 32px; cursor: pointer; color: var(--main-color); }
 
+        /* القائمة الجانبية مع سكرول */
         .side-menu {
             position: fixed; top: 0; right: -280px;
             width: var(--menu-width); height: 100vh;
@@ -66,6 +67,7 @@
         }
         .media-card:hover { border-color: var(--main-color); transform: translateY(-5px); }
 
+        /* نظام الدردشة */
         #chat-box { height: 350px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .msg { display: flex; gap: 10px; max-width: 85%; }
         .msg.mine { align-self: flex-end; flex-direction: row-reverse; }
@@ -76,50 +78,50 @@
         .fav-btn { position: absolute; top: 15px; left: 15px; font-size: 24px; cursor: pointer; color: rgba(255,255,255,0.2); transition: 0.3s; }
         .fav-btn.active { color: #ff4b2b; }
 
-        footer { text-align: center; padding: 50px; opacity: 0.3; }
+        footer { text-align: center; padding: 50px; opacity: 0.3; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header id="mainHeader">
-    <div style="font-weight: 900; color: var(--main-color);">MA3 PRODUCTIONS</div>
+    <div style="font-weight: 900; color: var(--main-color); letter-spacing: 1px;">MA3 PRODUCTIONS</div>
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
 </header>
 
 <div class="side-menu" id="sideMenu">
-    <div style="padding: 20px; color: #ff4b2b; cursor: pointer;" onclick="toggleMenu()">✖ إغلاق</div>
+    <div style="padding: 20px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق القائمة</div>
     <div class="menu-profile">
         <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
         <h3 id="sideUserName">زائر</h3>
     </div>
-    <button onclick="showSection('music')">🎵 الرئيسية</button>
-    <button onclick="showSection('favorites')">❤️ المفضلة</button>
-    <button onclick="showSection('chat')">💬 الدردشة</button>
-    <button onclick="showSection('images')">🖼️ المعرض</button>
-    <button onclick="showSection('friends')">👥 الأصدقاء</button>
-    <button onclick="showSection('profile')">👤 الحساب</button>
-    <button onclick="showSection('dev')">💻 المبرمج</button>
+    <button onclick="showSection('music')">🎵 المكتبة الموسيقية</button>
+    <button onclick="showSection('favorites')">❤️ الأغاني المفضلة</button>
+    <button onclick="showSection('chat')">💬 الدردشة الجماعية</button>
+    <button onclick="showSection('images')">🖼️ معرض علي المتميز</button>
+    <button onclick="showSection('friends')">👥 قائمة الأصدقاء</button>
+    <button onclick="showSection('profile')">👤 إعدادات الحساب</button>
+    <button onclick="showSection('dev')">💻 المبرمج مؤيد</button>
 </div>
 
 <div class="container">
     
     <div id="music" class="section active">
-        <h2 style="text-align: center; color: var(--main-color);">المكتبة الموسيقية 🎧</h2>
+        <h2 style="text-align: center; color: var(--main-color); margin-bottom: 30px;">الموسيقى المختارة 🎧</h2>
         <div id="songsList"></div>
     </div>
 
     <div id="favorites" class="section">
-        <h2 style="text-align: center; color: #ff4b2b;">مفضلتي ❤️</h2>
+        <h2 style="text-align: center; color: #ff4b2b; margin-bottom: 30px;">قائمة مفضلتي ❤️</h2>
         <div id="favSongsList"></div>
     </div>
 
     <div id="chat" class="section">
         <div class="media-card">
-            <h2>دردشة المجموعة 💬</h2>
+            <h2>الدردشة الحية 💬</h2>
             <div id="chat-box"></div>
             <div style="display: flex; gap: 10px;">
-                <input type="text" id="chatInput" placeholder="اكتب هنا..." style="flex:1; padding:12px; border-radius:10px; background:rgba(255,255,255,0.1); color:white; border:none;">
-                <button id="sendBtn" style="padding:0 20px; border-radius:10px; background:var(--main-color); border:none; font-weight:bold;">إرسال</button>
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." style="flex:1; padding:12px; border-radius:12px; background:rgba(255,255,255,0.1); color:white; border:none;">
+                <button id="sendBtn" style="padding:0 25px; border-radius:12px; background:var(--main-color); border:none; font-weight:bold; cursor:pointer;">إرسال</button>
             </div>
         </div>
     </div>
@@ -128,47 +130,49 @@
         <div class="media-card">
             <div id="auth-ui">
                 <h2>تسجيل الدخول</h2>
-                <button onclick="login()" style="padding:15px 30px; border-radius:50px; cursor:pointer; font-weight:bold;">Sign in with Google</button>
+                <p style="opacity:0.7; margin-bottom:20px;">سجل دخولك لتفعيل المفضلة والدردشة</p>
+                <button onclick="login()" style="padding:15px 35px; border-radius:50px; background:white; color:black; border:none; font-weight:bold; cursor:pointer;">الدخول بواسطة Google</button>
             </div>
             <div id="user-ui" style="display: none;">
-                <img id="userPhoto" src="" style="width:100px; border-radius:50%; border:3px solid var(--main-color); margin-bottom:10px;">
+                <img id="userPhoto" src="" style="width:110px; border-radius:50%; border:3px solid var(--main-color); margin-bottom:15px;">
                 <h2 id="userNameDisplay"></h2>
-                <button onclick="logout()" style="color:#ff4b2b; background:none; border:none; cursor:pointer; font-weight:bold;">خروج</button>
+                <button onclick="logout()" style="color:#ff4b2b; background:none; border:none; cursor:pointer; font-weight:bold; margin-top:10px;">تسجيل الخروج</button>
             </div>
         </div>
     </div>
 
     <div id="images" class="section">
         <div class="media-card">
-            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:450px; border-radius:25px;">
-            <h3 style="color: var(--main-color);">علي المتميز ✨</h3>
-            <p>الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي في كل الظروف يعكس معنى الأخوة الحقيقية.</p>
+            <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:450px; border-radius:25px; border: 2px solid var(--main-color);">
+            <h3 style="margin-top:20px; color: var(--main-color);">علي المتميز ✨</h3>
+            <p style="line-height:1.6; opacity:0.9;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي في كل الظروف يعكس معنى الأخوة الحقيقية.</p>
         </div>
     </div>
 
     <div id="friends" class="section">
-        <div class="media-card"><h3>علي</h3><p>الأسطورة والسند. صاحب المعدن الأصيل.</p></div>
-        <div class="media-card"><h3>أحمد</h3><p>رفيق الدرب وروح القعدة. طاقة إيجابية دائماً.</p></div>
-        <div class="media-card"><h3>عبد الحكيم</h3><p>عقلية ذهبية وقلب أبيض. فخر الأخوة.</p></div>
+        <div class="media-card"><h3>علي</h3><p>الأسطورة والسند. صاحب المعدن الأصيل وقلب الأسد.</p></div>
+        <div class="media-card"><h3>أحمد</h3><p>رفيق الدرب وروح القعدة. طاقة إيجابية وابتسامة لا تغيب.</p></div>
+        <div class="media-card"><h3>عبد الحكيم</h3><p>عقلية ذهبية وقلب أبيض. الأخ الذي لم تلده أمي.</p></div>
     </div>
 
     <div id="dev" class="section">
         <div class="media-card">
-            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:150px; border-radius:50%; border:4px solid var(--main-color);">
-            <h2>مؤيد | MOAYED</h2>
-            <p style="color: var(--secondary-color); font-weight: bold;">DIGITAL ARCHITECT</p>
-            <p>العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة.</p>
+            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:150px; border-radius:50%; border:4px solid var(--main-color); box-shadow: 0 0 20px var(--main-color);">
+            <h2 style="margin-top:15px;">مؤيد | MOAYED</h2>
+            <p style="color: var(--secondary-color); font-weight: bold; font-size: 1.1rem;">DEVELOPER & ARCHITECT</p>
+            <p style="opacity:0.8;">العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة وأهتم بأدق التفاصيل.</p>
         </div>
     </div>
 </div>
 
-<footer>© 2026 MA3 PRODUCTIONS - BY MOAYED</footer>
+<footer>© 2026 MA3 PRODUCTIONS - DESIGNED BY MOAYED</footer>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+    // إعدادات Firebase الخاصة بك
     const firebaseConfig = {
         apiKey: "AIzaSyDErWmcngtl2kvTG5c3m1hLN0gDF0avtTE",
         authDomain: "ma3-productions-1.firebaseapp.com",
@@ -184,6 +188,7 @@
     const db = getDatabase(app);
     const provider = new GoogleAuthProvider();
 
+    // إدارة القائمة
     window.toggleMenu = () => document.getElementById('sideMenu').classList.toggle('open');
     window.showSection = (id) => {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -192,6 +197,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    // بيانات الأغاني
     const songs = [
         { id: 1, title: "Let It Happen", img: "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png", src: "https://files.catbox.moe/abbogw.oga" },
         { id: 2, title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" },
@@ -200,33 +206,47 @@
 
     let favorites = JSON.parse(localStorage.getItem('ma3_favs')) || [];
 
+    // إدارة المفضلة
     window.toggleFav = (id) => {
-        if (!auth.currentUser) { alert("سجل دخولك أولاً!"); return; }
+        if (!auth.currentUser) { alert("يجب تسجيل الدخول أولاً لإضافة الأغاني للمفضلة!"); return; }
         favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
         localStorage.setItem('ma3_favs', JSON.stringify(favorites));
         renderSongs();
     };
 
     function renderSongs() {
-        document.getElementById('songsList').innerHTML = songs.map(song => `
+        document.getElementById('songsList').innerHTML = songs.map(s => `
             <div class="media-card">
-                <span class="fav-btn ${favorites.includes(song.id) ? 'active' : ''}" onclick="window.toggleFav(${song.id})">❤️</span>
-                <img src="${song.img}" width="180" style="border-radius:20px;">
-                <h3>${song.title}</h3>
-                <audio controls style="width:100%"><source src="${song.src}"></audio>
+                <span class="fav-btn ${favorites.includes(s.id) ? 'active' : ''}" onclick="window.toggleFav(${s.id})">❤️</span>
+                <img src="${s.img}" width="180" style="border-radius:20px; margin-bottom:15px;">
+                <h3>${s.title}</h3>
+                <audio controls style="width:100%"><source src="${s.src}"></audio>
             </div>
         `).join('');
         renderFavs();
     }
 
     function renderFavs() {
+        const favSongsList = document.getElementById('favSongsList');
         const favData = songs.filter(s => favorites.includes(s.id));
-        document.getElementById('favSongsList').innerHTML = favData.length ? favData.map(s => `
-            <div class="media-card"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
-        `).join('') : '<p>لا توجد مفضلات</p>';
+        
+        if (favData.length === 0) {
+            favSongsList.innerHTML = '<p style="text-align:center; opacity:0.5; padding:20px;">لا توجد أغاني في قائمتك المفضلة ❤️</p>';
+            return;
+        }
+
+        favSongsList.innerHTML = favData.map(s => `
+            <div class="media-card">
+                <span class="fav-btn active" onclick="window.toggleFav(${s.id})">❤️</span>
+                <img src="${s.img}" width="150" style="border-radius:20px; margin-bottom:10px;">
+                <h3>${s.title}</h3>
+                <audio controls style="width:100%"><source src="${s.src}"></audio>
+            </div>
+        `).join('');
     }
 
-    window.login = () => signInWithPopup(auth, provider);
+    // إدارة الهوية
+    window.login = () => signInWithPopup(auth, provider).catch(e => alert("خطأ في الاتصال: " + e.message));
     window.logout = () => signOut(auth).then(() => location.reload());
 
     onAuthStateChanged(auth, (user) => {
@@ -241,27 +261,41 @@
         renderSongs();
     });
 
-    // الدردشة
+    // إدارة الدردشة
     const sendBtn = document.getElementById('sendBtn');
     const chatInput = document.getElementById('chatInput');
     const chatBox = document.getElementById('chat-box');
 
     sendBtn.onclick = () => {
         if(chatInput.value.trim() && auth.currentUser) {
-            push(ref(db, 'messages'), { text: chatInput.value, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL, uid: auth.currentUser.uid });
+            push(ref(db, 'messages'), {
+                text: chatInput.value,
+                name: auth.currentUser.displayName,
+                photo: auth.currentUser.photoURL,
+                uid: auth.currentUser.uid,
+                time: serverTimestamp()
+            });
             chatInput.value = "";
+        } else if (!auth.currentUser) {
+            alert("سجل دخولك أولاً للمشاركة في الدردشة!");
         }
     };
 
-    onChildAdded(ref(db, 'messages'), (data) => {
+    const chatQuery = query(ref(db, 'messages'), limitToLast(50));
+    onChildAdded(chatQuery, (data) => {
         const m = data.val();
         const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
-        chatBox.innerHTML += `<div class="msg ${isMine?'mine':''}">
-            <img src="${m.photo}">
-            <div class="msg-text"><small>${m.name}</small><br>${m.text}</div>
-        </div>`;
+        chatBox.innerHTML += `
+            <div class="msg ${isMine?'mine':''}">
+                <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
+                <div class="msg-text">
+                    <small style="font-size:0.65rem; opacity:0.6; display:block; margin-bottom:2px;">${m.name}</small>
+                    ${m.text}
+                </div>
+            </div>`;
         chatBox.scrollTop = chatBox.scrollHeight;
     });
+
 </script>
 </body>
 </html>
