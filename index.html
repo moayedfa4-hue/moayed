@@ -46,7 +46,7 @@
             background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(40px);
             z-index: 2000; border-left: 2px solid var(--main-color);
             display: flex; flex-direction: column; padding-bottom: 50px;
-            overflow-y: auto; /* لضمان السكرول */
+            overflow-y: auto;
         }
         .side-menu.open { right: 0; box-shadow: -15px 0 40px rgba(0,0,0,0.7); }
 
@@ -57,7 +57,6 @@
             background: linear-gradient(45deg, #ffd700, #ffa500); color: black; 
             font-size: 0.75rem; padding: 4px 14px; border-radius: 20px; 
             font-weight: 900; display: none; margin: 12px auto; width: fit-content;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         .side-menu button {
@@ -65,10 +64,7 @@
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
             color: #eee; cursor: pointer; border-radius: 12px; font-size: 1rem;
         }
-        .side-menu button:hover { 
-            background: var(--main-color); color: black; 
-            transform: translateX(-8px); font-weight: bold;
-        }
+        .side-menu button:hover { background: var(--main-color); color: black; transform: translateX(-8px); }
 
         .container { max-width: 900px; margin: 110px auto 40px; padding: 20px; }
         .section { display: none; }
@@ -79,6 +75,8 @@
             text-align: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.06);
             position: relative;
         }
+        .fav-btn { position: absolute; top: 20px; left: 20px; font-size: 28px; cursor: pointer; color: rgba(255,255,255,0.15); z-index: 10; }
+        .fav-btn.active { color: #ff4b2b; filter: drop-shadow(0 0 8px #ff4b2b); transform: scale(1.2); }
 
         #chat-box { height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--glass); }
         .msg { display: flex; gap: 12px; max-width: 85%; align-items: flex-start; }
@@ -87,11 +85,7 @@
         .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; border: 1px solid rgba(255,255,255,0.05); }
         .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: 600; }
         
-        /* واهرة الآدمن في الدردشة */
-        .admin-msg-glow { border: 1.5px solid var(--admin-color) !important; box-shadow: 0 0 10px rgba(255, 215, 0, 0.15); }
         .admin-label { color: var(--admin-color); font-size: 0.8rem; font-weight: 900; display: block; margin-bottom: 4px; text-shadow: 0 0 5px var(--admin-color); }
-
-        /* ستايل مدخلات الآدمن */
         .admin-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--admin-color); }
         .admin-btn-post { background: var(--admin-color); color: black; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; }
 
@@ -119,7 +113,7 @@
     <button onclick="showSection('profile')">👤 إعدادات الحساب</button>
     <button onclick="showSection('dev')">💻 المبرمج مؤيد</button>
     
-    <div id="adminOnlyLink" style="display:none; border-top:1px solid var(--glass); margin-top:10px;">
+    <div id="adminArea" style="display:none; border-top:1px solid var(--glass); margin-top:10px;">
         <button onclick="showSection('admin-panel')" style="color:var(--admin-color); border:1px solid var(--admin-color);">👑 لوحة تحكم مؤيد</button>
     </div>
 </div>
@@ -134,7 +128,7 @@
             <div id="chat-box"></div>
             <div style="display: flex; gap: 10px; margin-top:20px;">
                 <input type="text" id="chatInput" placeholder="اكتب رسالة...">
-                <button id="sendBtn">إرسال</button>
+                <button id="sendBtn" style="padding:0 20px; border-radius:15px; background:var(--main-color); border:none; cursor:pointer; color:black; font-weight:bold;">إرسال</button>
             </div>
         </div>
     </div>
@@ -142,36 +136,33 @@
     <div id="admin-panel" class="section">
         <div class="media-card">
             <h2 style="color:var(--admin-color);">نشر أغنية جديدة 🎵</h2>
-            <input type="text" id="newSongTitle" class="admin-input" placeholder="اسم الأغنية">
-            <input type="text" id="newSongImg" class="admin-input" placeholder="رابط الصورة">
-            <input type="text" id="newSongSrc" class="admin-input" placeholder="رابط الـ MP3">
+            <input type="text" id="nsTitle" class="admin-input" placeholder="اسم الأغنية">
+            <input type="text" id="nsImg" class="admin-input" placeholder="رابط الصورة">
+            <input type="text" id="nsSrc" class="admin-input" placeholder="رابط الـ MP3">
             <button onclick="publishSong()" class="admin-btn-post">نشر في الموقع 🚀</button>
         </div>
         <div class="media-card">
             <h3 style="color:var(--admin-color);">إدارة الحظر 🚫</h3>
-            <div id="bannedUsersList" style="text-align: right; padding: 10px;"></div>
+            <div id="banList"></div>
         </div>
     </div>
 
     <div id="dev" class="section">
         <div class="media-card">
-            <div style="position: relative; display: inline-block;">
-                <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:165px; height:165px; border-radius:50%; border:4px solid var(--main-color);">
-                <div style="position: absolute; bottom: 5px; right: 5px; background: var(--admin-color); color: black; padding: 5px; border-radius: 50%;">👑</div>
-            </div>
+            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:165px; border-radius:50%; border:4px solid var(--main-color);">
             <h2>مؤيد | MOAYED</h2>
-            <p style="color:var(--admin-color); font-weight:900;">مبـرمج الموقـع</p>
+            <p style="color:var(--admin-color); font-weight:900;">مبـرمج الموقـع 👑</p>
             <p>العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة.</p>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="media-card">
-            <div id="auth-ui"><button onclick="login()">Sign in with Google</button></div>
+            <div id="auth-ui"><button onclick="login()" style="padding:15px 30px; border-radius:10px; cursor:pointer;">Sign in with Google</button></div>
             <div id="user-ui" style="display: none;">
-                <img id="userPhoto" src="" style="width:110px; border-radius:50%; border:4px solid var(--main-color);">
+                <img id="userPhoto" style="width:110px; border-radius:50%; border:4px solid var(--main-color);">
                 <h2 id="userNameDisplay"></h2>
-                <button onclick="logout()">تسجيل الخروج</button>
+                <button onclick="logout()" style="color:red; background:none; border:none; cursor:pointer;">خروج</button>
             </div>
         </div>
     </div>
@@ -182,7 +173,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, onValue, query, limitToLast, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const ADMIN_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2"; 
     const firebaseConfig = {
@@ -203,48 +194,53 @@
         if(document.getElementById('sideMenu').classList.contains('open')) toggleMenu();
     };
 
-    // ميزات الآدمن مؤيد
-    window.publishSong = () => {
-        const t = document.getElementById('newSongTitle').value;
-        const i = document.getElementById('newSongImg').value;
-        const s = document.getElementById('newSongSrc').value;
-        if(t && s) push(ref(db, 'songs'), { title: t, img: i || 'https://via.placeholder.com/150', src: s }).then(() => alert("تم النشر ✅"));
-    };
-
-    window.unbanUser = (uid) => remove(ref(db, `bannedUsers/${uid}`));
-
-    onValue(ref(db, 'bannedUsers'), (snap) => {
-        const list = document.getElementById('bannedUsersList'); list.innerHTML = '';
-        snap.forEach(c => {
-            list.innerHTML += `<div style="margin-bottom:10px;">👤 ${c.val().name} <button onclick="unbanUser('${c.key}')" style="color:var(--main-color); background:none; border:none; cursor:pointer;">[ فك الحظر ]</button></div>`;
-        });
-    });
-
-    // جلب الأغاني من الداتابيز + الأغاني الثابتة
+    // نظام الأغاني (الأصلية + المضافة)
     const staticSongs = [
         { id: "s1", title: "Let It Happen", img: "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png", src: "https://files.catbox.moe/abbogw.oga" },
-        { id: "s2", title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" }
+        { id: "s2", title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" },
+        { id: "s3", title: "Impossible", img: "https://i.ibb.co/LdSsVCKh/sddefault.jpg", src: "https://files.catbox.moe/0jymnn.oga" }
     ];
 
-    onValue(ref(db, 'songs'), (snap) => {
-        const songsList = document.getElementById('songsList'); songsList.innerHTML = '';
-        const allSongs = [...staticSongs];
-        snap.forEach(c => { allSongs.push({ id: c.key, ...c.val(), isDeletable: true }); });
-        
-        songsList.innerHTML = allSongs.reverse().map(s => `
-            <div class="media-card">
-                <img src="${s.img}" width="190" style="border-radius:22px;">
-                <h3>${s.title}</h3>
-                <audio controls style="width:100%"><source src="${s.src}"></audio>
-                ${(s.isDeletable && auth.currentUser?.uid === ADMIN_UID) ? `<button onclick="deleteSong('${s.id}')" style="color:red; background:none; border:none; cursor:pointer; margin-top:10px;">حذف</button>` : ''}
-            </div>
-        `).join('');
-    });
-    window.deleteSong = (key) => remove(ref(db, `songs/${key}`));
+    let favorites = JSON.parse(localStorage.getItem('ma3_favs')) || [];
 
-    window.login = () => signInWithPopup(auth, new GoogleAuthProvider());
-    window.logout = () => signOut(auth).then(() => location.reload());
+    window.toggleFav = (id) => {
+        if (!auth.currentUser) return alert("سجل دخولك أولاً!");
+        favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
+        localStorage.setItem('ma3_favs', JSON.stringify(favorites));
+        renderAll();
+    };
 
+    function renderAll() {
+        onValue(ref(db, 'songs'), (snap) => {
+            const list = document.getElementById('songsList'); list.innerHTML = '';
+            let all = [...staticSongs];
+            snap.forEach(c => { all.push({ id: c.key, ...c.val(), isAdmin: true }); });
+            
+            list.innerHTML = all.reverse().map(s => `
+                <div class="media-card">
+                    <span class="fav-btn ${favorites.includes(s.id)?'active':''}" onclick="toggleFav('${s.id}')">❤</span>
+                    <img src="${s.img}" width="190" style="border-radius:22px;">
+                    <h3>${s.title}</h3>
+                    <audio controls style="width:100%"><source src="${s.src}"></audio>
+                    ${(s.isAdmin && auth.currentUser?.uid === ADMIN_UID) ? `<button onclick="delSong('${s.id}')" style="color:red; background:none; border:none; cursor:pointer; margin-top:10px;">[ حذف ]</button>` : ''}
+                </div>
+            `).join('');
+
+            const favList = document.getElementById('favSongsList');
+            const favData = all.filter(s => favorites.includes(s.id));
+            favList.innerHTML = favData.length ? favData.map(s => `
+                <div class="media-card"><img src="${s.img}" width="150" style="border-radius:20px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
+            `).join('') : '<p style="opacity:0.4;">لا توجد أغاني مفضلة</p>';
+        });
+    }
+
+    window.publishSong = () => {
+        const t = document.getElementById('nsTitle').value, i = document.getElementById('nsImg').value, s = document.getElementById('nsSrc').value;
+        if(t && s) push(ref(db, 'songs'), { title: t, img: i || 'https://via.placeholder.com/150', src: s }).then(() => alert("تم النشر ✅"));
+    };
+    window.delSong = (key) => remove(ref(db, `songs/${key}`));
+
+    // الحساب والآدمن
     onAuthStateChanged(auth, (user) => {
         if (user) {
             document.getElementById('user-ui').style.display = 'block';
@@ -255,14 +251,24 @@
             document.getElementById('sideUserImg').src = user.photoURL;
             if(user.uid === ADMIN_UID) {
                 document.getElementById('adminBadge').style.display = 'block';
-                document.getElementById('adminOnlyLink').style.display = 'block';
+                document.getElementById('adminArea').style.display = 'block';
             }
         }
+        renderAll();
     });
+
+    window.login = () => signInWithPopup(auth, new GoogleAuthProvider());
+    window.logout = () => signOut(auth).then(() => location.reload());
 
     // الشات
     window.deleteMsg = (k) => remove(ref(db, `messages/${k}`));
     window.banUser = (uid, n) => set(ref(db, `bannedUsers/${uid}`), { name: n });
+    window.unbanUser = (uid) => remove(ref(db, `bannedUsers/${uid}`));
+
+    onValue(ref(db, 'bannedUsers'), (snap) => {
+        const bl = document.getElementById('banList'); bl.innerHTML = '';
+        snap.forEach(c => { bl.innerHTML += `<div>${c.val().name} <button onclick="unbanUser('${c.key}')" style="color:var(--main-color); background:none; border:none; cursor:pointer;">[ فك ]</button></div>`; });
+    });
 
     document.getElementById('sendBtn').onclick = async () => {
         const val = document.getElementById('chatInput').value;
@@ -277,15 +283,7 @@
         const m = data.val(); const isAdm = m.uid === ADMIN_UID;
         const msgDiv = document.createElement('div');
         msgDiv.className = `msg ${auth.currentUser?.uid === m.uid ? 'mine' : ''}`;
-        msgDiv.innerHTML = `
-            <img src="${m.photo}">
-            <div class="msg-text ${isAdm ? 'admin-msg-glow' : ''}">
-                ${isAdm ? '<span class="admin-label">مبرمج الموقع 👑</span>' : ''}
-                <small style="font-weight:900; color:${isAdm?'var(--admin-color)':'var(--main-color)'}">${m.name}</small>
-                <div>${m.text}</div>
-                ${auth.currentUser?.uid === ADMIN_UID ? `<small onclick="deleteMsg('${data.key}')" style="color:red; cursor:pointer;">حذف</small>` : ''}
-                ${(auth.currentUser?.uid === ADMIN_UID && !isAdm) ? `<small onclick="banUser('${m.uid}','${m.name}')" style="color:orange; cursor:pointer; margin-right:10px;">حظر</small>` : ''}
-            </div>`;
+        msgDiv.innerHTML = `<img src="${m.photo}"><div class="msg-text ${isAdm ? 'admin-msg-glow' : ''}">${isAdm ? '<span class="admin-label">مبرمج الموقع 👑</span>' : ''}<small style="font-weight:900; color:${isAdm?'var(--admin-color)':'var(--main-color)'}">${m.name}</small><div>${m.text}</div>${auth.currentUser?.uid === ADMIN_UID ? `<small onclick="deleteMsg('${data.key}')" style="color:red; cursor:pointer;">حذف</small>` : ''}${(auth.currentUser?.uid === ADMIN_UID && !isAdm) ? `<small onclick="banUser('${m.uid}','${m.name}')" style="color:orange; cursor:pointer; margin-right:10px;">حظر</small>` : ''}</div>`;
         document.getElementById('chat-box').appendChild(msgDiv);
         document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
     });
