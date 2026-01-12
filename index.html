@@ -12,17 +12,10 @@
             --admin-color: #ffd700;
             --bg-dark: #02040a;
             --glass: rgba(255, 255, 255, 0.05);
-            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* زيادة الفريمات وسلاسة الحركة */
-        * { 
-            box-sizing: border-box; 
-            transition: var(--transition); 
-            outline: none;
-            -webkit-font-smoothing: antialiased;
-            backface-visibility: hidden;
-        }
+        * { box-sizing: border-box; transition: var(--transition); outline: none; }
         
         body {
             margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -31,10 +24,16 @@
             overflow-x: hidden;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        /* إصلاح السكرول في القائمة الجانبية */
+        .side-menu {
+            position: fixed; top: 0; right: -300px; width: 300px; height: 100vh;
+            background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(40px);
+            z-index: 2000; border-left: 2px solid var(--main-color);
+            display: flex; flex-direction: column; 
+            overflow-y: auto !important; /* تفعيل التمرير */
+            padding-bottom: 30px;
         }
+        .side-menu.open { right: 0; box-shadow: -15px 0 40px rgba(0,0,0,0.8); }
 
         header {
             position: fixed; top: 0; width: 100%; padding: 15px 25px;
@@ -43,87 +42,67 @@
             z-index: 1000; border-bottom: 1px solid rgba(79, 172, 254, 0.2);
         }
 
-        .side-menu {
-            position: fixed; top: 0; right: -280px; width: 280px; height: 100vh;
-            background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(40px);
-            z-index: 2000; border-left: 2px solid var(--main-color);
-            display: flex; flex-direction: column; padding-bottom: 50px;
-        }
-        .side-menu.open { right: 0; box-shadow: -15px 0 40px rgba(0,0,0,0.7); }
-
         .menu-profile { padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--glass); }
-        .menu-profile img { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--main-color); box-shadow: 0 0 25px rgba(79, 172, 254, 0.4); }
+        .menu-profile img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--main-color); box-shadow: 0 0 20px var(--main-color); }
         
-        .admin-badge { 
-            background: linear-gradient(45deg, #ffd700, #ffa500); color: black; 
-            font-size: 0.75rem; padding: 4px 14px; border-radius: 20px; 
-            font-weight: 900; display: none; margin: 12px auto; width: fit-content;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        }
-
         .side-menu button {
-            width: 88%; margin: 8px auto; padding: 14px; text-align: right;
+            width: 90%; margin: 6px auto; padding: 14px; text-align: right;
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
-            color: #eee; cursor: pointer; border-radius: 12px; font-size: 1rem;
+            color: #eee; cursor: pointer; border-radius: 12px; font-size: 0.95rem;
         }
-        .side-menu button:hover { 
-            background: var(--main-color); color: black; 
-            transform: translateX(-8px); font-weight: bold;
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+        .side-menu button:hover { background: var(--main-color); color: black; font-weight: bold; transform: translateX(-5px); }
+
+        .container { max-width: 850px; margin: 110px auto 40px; padding: 20px; }
+        .section { display: none; animation: fadeIn 0.5s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .media-card { background: rgba(255, 255, 255, 0.03); padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; border: 1px solid var(--glass); position: relative; }
+        .media-card:hover { border-color: var(--main-color); transform: scale(1.01); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        /* ستايل اسم المبرمج "الواعر" في الدردشة */
+        .admin-tag {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: black; padding: 2px 10px; border-radius: 6px;
+            font-size: 0.7rem; font-weight: 900; margin-bottom: 5px;
+            display: inline-block; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            text-shadow: 0 0 2px rgba(0,0,0,0.2);
         }
+        .admin-name { color: var(--admin-color) !important; font-size: 1rem !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
-        .container { max-width: 900px; margin: 110px auto 40px; padding: 20px; }
-        .section { display: none; }
-        .section.active { display: block; animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-
-        .media-card {
-            background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px;
-            text-align: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.06);
-            position: relative;
-        }
-        .media-card:hover { 
-            border-color: var(--main-color); 
-            background: rgba(255,255,255,0.06); 
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-
-        .fav-btn { position: absolute; top: 20px; left: 20px; font-size: 28px; cursor: pointer; color: rgba(255,255,255,0.15); z-index: 10; }
-        .fav-btn.active { color: #ff4b2b; filter: drop-shadow(0 0 8px #ff4b2b); transform: scale(1.2); }
-
-        #chat-box { height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--glass); }
-        .msg { display: flex; gap: 12px; max-width: 85%; align-items: flex-start; }
+        #chat-box { height: 450px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 20px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .msg { display: flex; gap: 10px; max-width: 85%; }
         .msg.mine { align-self: flex-end; flex-direction: row-reverse; }
-        .msg img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--main-color); }
-        .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; border: 1px solid rgba(255,255,255,0.05); }
-        .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: 600; border-top-right-radius: 2px; }
-        
-        .admin-label { color: var(--admin-color); font-size: 0.75rem; font-weight: 900; display: block; margin-bottom: 4px; border-bottom: 1px solid rgba(255, 215, 0, 0.2); padding-bottom: 2px; }
-        .admin-tools { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; display: flex; gap: 15px; }
+        .msg-text { background: var(--glass); padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); }
+        .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: bold; }
 
-        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px; }
-        audio { height: 35px; margin-top: 15px; filter: invert(100%) hue-rotate(180deg) brightness(1.5); opacity: 0.8; }
+        input, button.action-btn { padding: 12px; border-radius: 12px; border: 1px solid var(--glass); background: var(--glass); color: white; width: 100%; margin-top: 10px; }
+        button.add-btn { background: var(--main-color); color: black; font-weight: bold; cursor: pointer; border: none; }
+        
+        footer { text-align: center; padding: 40px; opacity: 0.3; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 900; color: var(--main-color); font-size: 1.4rem;">MA3 PRODUCTIONS</div>
-    <div onclick="toggleMenu()" style="font-size:35px; cursor:pointer; color: var(--main-color); padding: 5px;">☰</div>
+    <div style="font-weight: 900; color: var(--main-color); font-size: 1.3rem;">MA3 PRODUCTIONS</div>
+    <div onclick="toggleMenu()" style="font-size:30px; cursor:pointer; color: var(--main-color);">☰</div>
 </header>
 
 <div class="side-menu" id="sideMenu">
-    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق</div>
+    <div style="padding: 20px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق</div>
     <div class="menu-profile">
-        <div id="adminBadge" class="admin-badge">مبرمج الموقع 👑</div>
         <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <h3 id="sideUserName" style="margin-top:15px;">زائر</h3>
+        <h3 id="sideUserName">زائر</h3>
     </div>
     <button onclick="showSection('music')">🎧 المكتبة الموسيقية</button>
-    <button onclick="showSection('favorites')">❤️ الأغاني المفضلة</button>
-    <button onclick="showSection('chat')">💬 الدردشة الجماعية</button>
-    <button onclick="showSection('profile')">👤 إعدادات الحساب</button>
+    <button onclick="showSection('favorites')">❤️ المفضلة</button>
+    <button onclick="showSection('chat')">💬 الدردشة</button>
     <button onclick="showSection('dev')">💻 المبرمج مؤيد</button>
+    <button onclick="showSection('profile')">👤 الحساب</button>
+    <div id="adminLinks" style="display:none; border-top: 1px solid var(--glass); margin-top:10px;">
+        <button onclick="showSection('admin-panel')" style="color:var(--admin-color);">👑 لوحة التحكم</button>
+    </div>
 </div>
 
 <div class="container">
@@ -131,59 +110,62 @@
     <div id="favorites" class="section"><div id="favSongsList"></div></div>
 
     <div id="chat" class="section">
-        <div class="media-card" style="padding:15px;">
-            <h2 style="color: var(--main-color); margin-bottom:15px; font-weight: 800;">الدردشة العامة 💬</h2>
+        <div class="media-card">
             <div id="chat-box"></div>
-            <div style="display: flex; gap: 10px; margin-top:20px;">
-                <input type="text" id="chatInput" placeholder="اكتب رسالة..." style="flex:1; padding:16px; border-radius:18px; background:rgba(255,255,255,0.07); color:white; border:1px solid rgba(255,255,255,0.1); font-size: 1rem;">
-                <button id="sendBtn" style="padding:0 28px; border-radius:18px; background:var(--main-color); border:none; font-weight:900; cursor:pointer; color:black;">إرسال</button>
+            <div style="display: flex; gap: 8px; margin-top:15px;">
+                <input type="text" id="chatInput" placeholder="رسالتك يا مبدع...">
+                <button id="sendBtn" style="width:100px; background:var(--main-color); border:none; border-radius:12px; font-weight:bold; cursor:pointer;">إرسال</button>
             </div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="section">
+        <div class="media-card">
+            <h2 style="color:var(--admin-color);">👑 إضافة أغنية جديدة</h2>
+            <input type="text" id="newSongTitle" placeholder="اسم الأغنية">
+            <input type="text" id="newSongImg" placeholder="رابط صورة الأغنية">
+            <input type="text" id="newSongSrc" placeholder="رابط ملف الصوت (mp3/oga)">
+            <button onclick="addNewSong()" class="add-btn action-btn">نشر الأغنية فوراً 🔥</button>
+        </div>
+        <div class="media-card">
+            <h2 style="color:var(--admin-color);">🚫 قائمة المحظورين</h2>
+            <div id="bannedListContainer"></div>
         </div>
     </div>
 
     <div id="dev" class="section">
         <div class="media-card">
-            <div style="position: relative; display: inline-block;">
-                <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:165px; height:165px; border-radius:50%; border:4px solid var(--main-color); box-shadow: 0 0 30px var(--main-color);">
-                <div style="position: absolute; bottom: 5px; right: 5px; background: var(--admin-color); color: black; padding: 5px; border-radius: 50%; font-size: 1.2rem;">👑</div>
-            </div>
-            <h2 style="margin-top:25px; font-size: 2rem;">مؤيد | MOAYED</h2>
-            <p style="color:var(--admin-color); font-weight:900; font-size:1.3rem; letter-spacing: 1px;">مبـرمج الموقـع</p>
-            <p style="padding:10px 40px; opacity:0.8; line-height:1.7; font-size: 1.1rem;">العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة وأهتم بأدق التفاصيل لتقديم أفضل تجربة للمستخدم.</p>
+            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:150px; height:150px; border-radius:50%; border:4px solid var(--main-color);">
+            <h2 style="margin-top:20px;">مؤيد | MOAYED</h2>
+            <p style="color:var(--admin-color); font-weight:bold;">مبـرمج الموقـع 👑</p>
+            <p style="padding:0 20px; opacity:0.8;">أصنع الواقع الرقمي بلمسة إبداعية فريدة وأهتم بأدق التفاصيل.</p>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="media-card">
-            <div id="auth-ui">
-                <button onclick="login()" style="padding:18px 45px; border-radius:50px; background:white; color:black; font-weight:900; border:none; cursor:pointer; font-size: 1.1rem;">Sign in with Google</button>
-            </div>
-            <div id="user-ui" style="display: none;">
-                <img id="userPhoto" src="" style="width:110px; height:110px; border-radius:50%; border:4px solid var(--main-color);">
-                <h2 id="userNameDisplay" style="margin: 15px 0;"></h2>
-                <button onclick="logout()" style="color:#ff4b2b; font-weight:bold; background:none; border:none; cursor:pointer;">تسجيل الخروج</button>
+            <div id="auth-ui"><button onclick="login()" class="add-btn action-btn">تسجيل دخول بجوجل</button></div>
+            <div id="user-ui" style="display:none;">
+                <img id="userPhoto" style="width:100px; border-radius:50%;">
+                <h2 id="userNameDisplay"></h2>
+                <button onclick="logout()" style="color:#ff4b2b; background:none; border:none; cursor:pointer;">خروج</button>
             </div>
         </div>
     </div>
 </div>
 
-<footer>DESIGNED & DEVELOPED BY MOAYED © 2026</footer>
+<footer>MA3 PRODUCTIONS © 2026 BY MOAYED</footer>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, query, limitToLast, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, query, limitToLast, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const ADMIN_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2"; 
-    const ADMIN_EMAIL = "moayedfa4@gmail.com";
-
+    const ADMIN_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2";
     const firebaseConfig = {
         apiKey: "AIzaSyDErWmcngtl2kvTG5c3m1hLN0gDF0avtTE",
         authDomain: "ma3-productions-1.firebaseapp.com",
         projectId: "ma3-productions-1",
-        storageBucket: "ma3-productions-1.firebasestorage.app",
-        messagingSenderId: "828898707410",
-        appId: "1:828898707410:web:559e24494fa44a6275aa0b",
         databaseURL: "https://ma3-productions-1-default-rtdb.firebaseio.com/"
     };
 
@@ -196,52 +178,35 @@
     window.showSection = (id) => {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        if(document.getElementById('sideMenu').classList.contains('open')) toggleMenu();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if(window.innerWidth < 800) toggleMenu();
     };
 
-    window.deleteMsg = (key) => { if(confirm("حذف الرسالة؟")) remove(ref(db, `messages/${key}`)); };
-    window.banUser = (uid, name) => {
-        if(uid === auth.currentUser.uid) return alert("لا يمكن حظر النفس!");
-        if(confirm(`حظر ${name}؟`)) set(ref(db, `bannedUsers/${uid}`), { name: name, date: new Date().toISOString() });
+    // إضافة أغنية لقاعدة البيانات
+    window.addNewSong = () => {
+        const title = document.getElementById('newSongTitle').value;
+        const img = document.getElementById('newSongImg').value;
+        const src = document.getElementById('newSongSrc').value;
+        if(title && src) {
+            push(ref(db, 'songs'), { title, img: img || 'https://via.placeholder.com/150', src });
+            alert("تمت إضافة الأغنية بنجاح! 🔥");
+            document.querySelectorAll('#admin-panel input').forEach(i => i.value = '');
+        }
     };
 
-    const songs = [
-        { id: 1, title: "Let It Happen", img: "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png", src: "https://files.catbox.moe/abbogw.oga" },
-        { id: 2, title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" },
-        { id: 3, title: "Impossible", img: "https://i.ibb.co/LdSsVCKh/sddefault.jpg", src: "https://files.catbox.moe/0jymnn.oga" }
-    ];
-
-    let favorites = JSON.parse(localStorage.getItem('ma3_favs')) || [];
-
-    window.toggleFav = (id) => {
-        if (!auth.currentUser) return alert("سجل دخولك أولاً!");
-        favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
-        localStorage.setItem('ma3_favs', JSON.stringify(favorites));
-        renderSongs();
-    };
-
-    function renderSongs() {
-        document.getElementById('songsList').innerHTML = songs.map(s => `
-            <div class="media-card">
-                <span class="fav-btn ${favorites.includes(s.id)?'active':''}" onclick="window.toggleFav(${s.id})">❤</span>
-                <img src="${s.img}" width="190" style="border-radius:22px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
-                <h3 style="margin-top: 20px;">${s.title}</h3>
-                <audio controls style="width:100%"><source src="${s.src}"></audio>
-            </div>
-        `).join('');
-        renderFavs();
-    }
-
-    function renderFavs() {
-        const favData = songs.filter(s => favorites.includes(s.id));
-        document.getElementById('favSongsList').innerHTML = favData.length ? favData.map(s => `
-            <div class="media-card"><img src="${s.img}" width="150" style="border-radius:20px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
-        `).join('') : '<p style="opacity:0.4; padding:40px;">لا توجد أغاني في المفضلة بعد</p>';
-    }
-
-    window.login = () => signInWithPopup(auth, provider);
-    window.logout = () => signOut(auth).then(() => location.reload());
+    // عرض الأغاني
+    onValue(ref(db, 'songs'), (snapshot) => {
+        const list = document.getElementById('songsList');
+        list.innerHTML = '';
+        snapshot.forEach((child) => {
+            const s = child.val();
+            list.innerHTML += `
+                <div class="media-card">
+                    <img src="${s.img}" width="150" style="border-radius:15px;">
+                    <h3>${s.title}</h3>
+                    <audio controls style="width:100%"><source src="${s.src}"></audio>
+                </div>`;
+        });
+    });
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -251,70 +216,63 @@
             document.getElementById('userNameDisplay').innerText = user.displayName;
             document.getElementById('sideUserImg').src = user.photoURL;
             document.getElementById('sideUserName').innerText = user.displayName;
-            if(user.uid === ADMIN_UID || user.email === ADMIN_EMAIL) document.getElementById('adminBadge').style.display = 'block';
+            if(user.uid === ADMIN_UID) document.getElementById('adminLinks').style.display = 'block';
         }
-        renderSongs();
     });
 
-    const sendBtn = document.getElementById('sendBtn');
-    const chatInput = document.getElementById('chatInput');
-    const chatBox = document.getElementById('chat-box');
-
+    // الدردشة وتنسيق الآدمن
     const sendMessage = async () => {
-        if(!auth.currentUser) return alert("سجل دخولك!");
-        const bannedCheck = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
-        if(bannedCheck.exists()) return alert("أنت محظور 🚫");
-        if(chatInput.value.trim()) {
-            push(ref(db, 'messages'), {
-                text: chatInput.value,
-                name: auth.currentUser.displayName,
-                photo: auth.currentUser.photoURL,
-                uid: auth.currentUser.uid,
-                email: auth.currentUser.email,
-                time: serverTimestamp()
-            });
-            chatInput.value = "";
-        }
+        const input = document.getElementById('chatInput');
+        if(!input.value.trim()) return;
+        const ban = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
+        if(ban.exists()) return alert("أنت محظور!");
+        push(ref(db, 'messages'), { 
+            text: input.value, 
+            name: auth.currentUser.displayName, 
+            uid: auth.currentUser.uid, 
+            photo: auth.currentUser.photoURL,
+            time: serverTimestamp() 
+        });
+        input.value = "";
     };
+    document.getElementById('sendBtn').onclick = sendMessage;
 
-    sendBtn.onclick = sendMessage;
-    chatInput.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-
-    const q = query(ref(db, 'messages'), limitToLast(60));
-    onChildAdded(q, (data) => {
+    onChildAdded(query(ref(db, 'messages'), limitToLast(40)), (data) => {
         const m = data.val();
-        const key = data.key;
-        
-        const renderMsg = () => {
-            const isAdmin = auth.currentUser && (auth.currentUser.uid === ADMIN_UID || auth.currentUser.email === ADMIN_EMAIL);
-            const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
-            const isMsgAdmin = (m.uid === ADMIN_UID || m.email === ADMIN_EMAIL);
-            
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
-            msgDiv.id = "msg-" + key;
-            msgDiv.innerHTML = `
-                <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" loading="lazy">
-                <div class="msg-text">
-                    ${isMsgAdmin ? '<span class="admin-label">مبرمج الموقع 👑</span>' : ''}
-                    <small style="color:${isMsgAdmin ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:900; display:block; margin-bottom:4px; font-size:0.85rem;">
-                        ${m.name}
-                    </small>
-                    ${m.text}
-                    ${isAdmin ? `
-                    <div class="admin-tools">
-                        <span style="color:#ff4b2b; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="deleteMsg('${key}')">🗑️ حذف</span>
-                        ${!isMsgAdmin ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
-                    </div>` : ''}
-                </div>`;
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        };
-        renderMsg();
-        onAuthStateChanged(auth, () => { const el = document.getElementById("msg-" + key); if(el) { el.remove(); renderMsg(); } });
+        const isAdmin = m.uid === ADMIN_UID;
+        const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
+        msgDiv.innerHTML = `
+            <img src="${m.photo}" style="width:40px; height:40px; border-radius:50%; border:1px solid var(--main-color);">
+            <div class="msg-text">
+                ${isAdmin ? '<span class="admin-tag">مبرمج الموقع 👑</span>' : ''}
+                <small class="${isAdmin ? 'admin-name' : ''}" style="display:block; font-weight:bold; margin-bottom:3px;">${m.name}</small>
+                ${m.text}
+                ${auth.currentUser?.uid === ADMIN_UID ? `<br><small onclick="deleteMsg('${data.key}')" style="color:red; cursor:pointer;">حذف</small>` : ''}
+                ${(auth.currentUser?.uid === ADMIN_UID && !isAdmin) ? `<small onclick="banUser('${m.uid}','${m.name}')" style="color:orange; margin-right:10px; cursor:pointer;">حظر</small>` : ''}
+            </div>`;
+        document.getElementById('chat-box').appendChild(msgDiv);
+        document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
     });
 
-    onChildRemoved(ref(db, 'messages'), (data) => { document.getElementById("msg-" + data.key)?.remove(); });
+    window.login = () => signInWithPopup(auth, provider);
+    window.logout = () => signOut(auth).then(()=>location.reload());
+    window.deleteMsg = (k) => remove(ref(db, `messages/${k}`));
+    window.banUser = (id, n) => set(ref(db, `bannedUsers/${id}`), { name: n });
+    window.unbanUser = (id) => remove(ref(db, `bannedUsers/${id}`));
+
+    // تحديث قائمة المحظورين في لوحة التحكم
+    onValue(ref(db, 'bannedUsers'), (snap) => {
+        const container = document.getElementById('bannedListContainer');
+        container.innerHTML = '';
+        snap.forEach(c => {
+            container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <span>${c.val().name}</span>
+                <button onclick="unbanUser('${c.key}')" style="background:red; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer;">فك الحظر</button>
+            </div>`;
+        });
+    });
 </script>
 </body>
 </html>
