@@ -11,101 +11,111 @@
             --main-color: #4facfe;
             --admin-color: #ffd700;
             --bg-dark: #02040a;
-            --glass: rgba(255, 255, 255, 0.05);
-            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --glass: rgba(255, 255, 255, 0.08);
+            --msg-mine: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { 
-            box-sizing: border-box; 
-            transition: var(--transition); 
-            outline: none;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; transition: var(--transition); outline: none; }
         
         body {
-            margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: var(--bg-dark); color: white; min-height: 100vh;
-            background: radial-gradient(circle at center, #0a132e 0%, #02040a 100%);
-            overflow-x: hidden;
+            margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark); color: white;
+            background: radial-gradient(circle at top right, #0a132e 0%, #02040a 100%);
+            background-attachment: fixed; overflow-x: hidden;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
             to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         header {
-            position: fixed; top: 0; width: 100%; padding: 15px 25px;
+            position: fixed; top: 0; width: 100%; padding: 20px 30px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(10, 19, 46, 0.85); backdrop-filter: blur(25px);
+            background: rgba(2, 4, 10, 0.85); backdrop-filter: blur(25px);
             z-index: 1000; border-bottom: 1px solid rgba(79, 172, 254, 0.2);
         }
 
         .side-menu {
-            position: fixed; top: 0; right: -280px; width: 280px; height: 100vh;
+            position: fixed; top: 0; right: -320px; width: 320px; height: 100vh;
             background: rgba(10, 19, 46, 0.98); backdrop-filter: blur(40px);
             z-index: 2000; border-left: 2px solid var(--main-color);
-            display: flex; flex-direction: column; padding-bottom: 50px;
-            overflow-y: auto;
+            padding: 25px; display: flex; flex-direction: column;
         }
-        .side-menu.open { right: 0; box-shadow: -15px 0 40px rgba(0,0,0,0.7); }
+        .side-menu.open { right: 0; box-shadow: -20px 0 60px rgba(0,0,0,0.9); }
 
-        .menu-profile { padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--glass); }
-        .menu-profile img { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--main-color); box-shadow: 0 0 25px rgba(79, 172, 254, 0.4); }
-        
-        .admin-badge { 
-            background: linear-gradient(45deg, #ffd700, #ffa500); color: black; 
-            font-size: 0.75rem; padding: 4px 14px; border-radius: 20px; 
-            font-weight: 900; display: none; margin: 12px auto; width: fit-content;
-        }
+        .menu-profile { padding: 30px 0; text-align: center; border-bottom: 1px solid var(--glass); margin-bottom: 20px; }
+        .menu-profile img { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--main-color); box-shadow: 0 0 30px rgba(79, 172, 254, 0.4); }
 
         .side-menu button {
-            width: 88%; margin: 8px auto; padding: 14px; text-align: right;
+            width: 100%; margin: 8px 0; padding: 16px; text-align: right;
             background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
-            color: #eee; cursor: pointer; border-radius: 12px; font-size: 1rem;
+            color: white; border-radius: 15px; cursor: pointer; font-size: 1rem; font-weight: 500;
         }
-        .side-menu button:hover { background: var(--main-color); color: black; transform: translateX(-8px); }
+        .side-menu button:hover { background: var(--main-color); color: black; transform: translateX(-10px); }
 
-        .container { max-width: 900px; margin: 110px auto 40px; padding: 20px; }
+        .container { max-width: 900px; margin: 120px auto 50px; padding: 20px; }
         .section { display: none; }
-        .section.active { display: block; animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        .section.active { display: block; animation: slideUpFade 0.8s ease forwards; }
 
-        .media-card {
-            background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 30px;
-            text-align: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.06);
-            position: relative;
+        /* ستايل الدردشة الاحترافي */
+        #chat-box { 
+            height: 550px; overflow-y: auto; background: rgba(0,0,0,0.25); 
+            border-radius: 35px; padding: 30px; display: flex; flex-direction: column; 
+            gap: 25px; border: 1px solid var(--glass); scrollbar-width: none;
         }
-        .fav-btn { position: absolute; top: 20px; left: 20px; font-size: 28px; cursor: pointer; color: rgba(255,255,255,0.15); z-index: 10; }
-        .fav-btn.active { color: #ff4b2b; filter: drop-shadow(0 0 8px #ff4b2b); transform: scale(1.2); }
-
-        #chat-box { height: 480px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 25px; padding: 20px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--glass); }
-        .msg { display: flex; gap: 12px; max-width: 85%; align-items: flex-start; }
+        .msg { display: flex; gap: 15px; max-width: 85%; align-items: flex-end; }
         .msg.mine { align-self: flex-end; flex-direction: row-reverse; }
-        .msg img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--main-color); }
-        .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; border: 1px solid rgba(255,255,255,0.05); }
-        .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: 600; }
+        .msg img { width: 48px; height: 48px; border-radius: 15px; border: 2px solid var(--main-color); }
         
-        .admin-label { color: var(--admin-color); font-size: 0.8rem; font-weight: 900; display: block; margin-bottom: 4px; text-shadow: 0 0 5px var(--admin-color); }
-        .admin-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--admin-color); }
-        .admin-btn-post { background: var(--admin-color); color: black; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; }
+        .msg-text { 
+            background: var(--glass); padding: 16px 22px; border-radius: 25px 25px 25px 8px; 
+            font-size: 1rem; line-height: 1.6; backdrop-filter: blur(12px);
+            position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .msg.mine .msg-text { 
+            background: var(--msg-mine); color: black; font-weight: 600; 
+            border-radius: 25px 25px 8px 25px; box-shadow: 0 10px 25px rgba(79, 172, 254, 0.35);
+        }
 
-        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px; }
-        audio { height: 35px; margin-top: 15px; filter: invert(100%) hue-rotate(180deg) brightness(1.5); opacity: 0.8; }
+        .admin-msg-body { border: 2.5px solid var(--admin-color) !important; background: rgba(255, 215, 0, 0.08) !important; }
+        .admin-tag { color: var(--admin-color); font-size: 0.75rem; font-weight: 900; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+
+        /* ستايل الكروت */
+        .media-card {
+            background: var(--glass); padding: 40px; border-radius: 40px;
+            text-align: center; margin-bottom: 35px; border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px); position: relative;
+        }
+        .media-card:hover { transform: translateY(-12px); border-color: var(--main-color); box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+
+        .fav-btn { position: absolute; top: 30px; left: 30px; font-size: 32px; cursor: pointer; color: rgba(255,255,255,0.1); }
+        .fav-btn.active { color: #ff4b2b; filter: drop-shadow(0 0 12px #ff4b2b); }
+
+        .chat-input-area { 
+            display: flex; gap: 15px; margin-top: 25px; padding: 12px;
+            background: var(--glass); border-radius: 30px; border: 1px solid rgba(255,255,255,0.15);
+        }
+        #chatInput { flex: 1; background: transparent; border: none; color: white; padding: 15px; font-size: 1rem; }
+        #sendBtn { background: var(--main-color); color: black; border: none; padding: 0 35px; border-radius: 22px; font-weight: 900; cursor: pointer; }
+
+        footer { text-align: center; padding: 60px; opacity: 0.4; font-size: 0.85rem; letter-spacing: 4px; color: var(--main-color); }
+        audio { width: 100%; margin-top: 25px; filter: invert(1) hue-rotate(180deg); opacity: 0.8; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 900; color: var(--main-color); font-size: 1.4rem;">MA3 PRODUCTIONS</div>
-    <div onclick="toggleMenu()" style="font-size:35px; cursor:pointer; color: var(--main-color); padding: 5px;">☰</div>
+    <div style="font-weight: 900; color: var(--main-color); font-size: 1.6rem; letter-spacing: 1.5px;">MA3 PRODUCTIONS</div>
+    <div onclick="toggleMenu()" style="font-size:38px; cursor:pointer; color: var(--main-color);">☰</div>
 </header>
 
 <div class="side-menu" id="sideMenu">
-    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق</div>
+    <div style="text-align: left; font-size: 28px; cursor: pointer; color: #ff4b2b; padding: 10px;" onclick="toggleMenu()">✕</div>
     <div class="menu-profile">
-        <div id="adminBadge" class="admin-badge">مبرمج الموقع 👑</div>
         <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-        <h3 id="sideUserName" style="margin-top:15px;">زائر</h3>
+        <h3 id="sideUserName" style="margin-top:18px; color: var(--main-color); font-size: 1.3rem;">زائر</h3>
     </div>
     <button onclick="showSection('music')">🎧 المكتبة الموسيقية</button>
     <button onclick="showSection('favorites')">❤️ الأغاني المفضلة</button>
@@ -113,8 +123,8 @@
     <button onclick="showSection('profile')">👤 إعدادات الحساب</button>
     <button onclick="showSection('dev')">💻 المبرمج مؤيد</button>
     
-    <div id="adminArea" style="display:none; border-top:1px solid var(--glass); margin-top:10px;">
-        <button onclick="showSection('admin-panel')" style="color:var(--admin-color); border:1px solid var(--admin-color);">👑 لوحة تحكم مؤيد</button>
+    <div id="adminPanelLink" style="display:none; border-top: 1px solid rgba(255,215,0,0.3); margin-top: 20px; padding-top: 20px;">
+        <button onclick="showSection('admin-panel')" style="color:var(--admin-color); border: 2px solid var(--admin-color); background: rgba(255,215,0,0.05);">👑 لوحة تحكم مؤيد</button>
     </div>
 </div>
 
@@ -123,46 +133,51 @@
     <div id="favorites" class="section"><div id="favSongsList"></div></div>
 
     <div id="chat" class="section">
-        <div class="media-card" style="padding:15px;">
-            <h2 style="color: var(--main-color); margin-bottom:15px;">الدردشة العامة 💬</h2>
+        <div class="media-card" style="padding: 25px;">
+            <h2 style="color: var(--main-color); margin-bottom: 25px; font-weight: 800;">غرفة الدردشة ✨</h2>
             <div id="chat-box"></div>
-            <div style="display: flex; gap: 10px; margin-top:20px;">
-                <input type="text" id="chatInput" placeholder="اكتب رسالة...">
-                <button id="sendBtn" style="padding:0 20px; border-radius:15px; background:var(--main-color); border:none; cursor:pointer; color:black; font-weight:bold;">إرسال</button>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="قل شيئاً أسطورياً...">
+                <button id="sendBtn">إرسال</button>
             </div>
         </div>
     </div>
 
     <div id="admin-panel" class="section">
         <div class="media-card">
-            <h2 style="color:var(--admin-color);">نشر أغنية جديدة 🎵</h2>
-            <input type="text" id="nsTitle" class="admin-input" placeholder="اسم الأغنية">
-            <input type="text" id="nsImg" class="admin-input" placeholder="رابط الصورة">
-            <input type="text" id="nsSrc" class="admin-input" placeholder="رابط الـ MP3">
-            <button onclick="publishSong()" class="admin-btn-post">نشر في الموقع 🚀</button>
+            <h2 style="color:var(--admin-color); text-shadow: 0 0 15px rgba(255,215,0,0.4);">إضافة أغنية حصرية 🎵</h2>
+            <input type="text" id="nsTitle" style="width:100%; padding:18px; margin:12px 0; border-radius:15px; background:rgba(0,0,0,0.4); color:white; border:1px solid var(--admin-color);" placeholder="اسم الأغنية">
+            <input type="text" id="nsImg" style="width:100%; padding:18px; margin:12px 0; border-radius:15px; background:rgba(0,0,0,0.4); color:white; border:1px solid var(--admin-color);" placeholder="رابط غلاف الأغنية">
+            <input type="text" id="nsSrc" style="width:100%; padding:18px; margin:12px 0; border-radius:15px; background:rgba(0,0,0,0.4); color:white; border:1px solid var(--admin-color);" placeholder="رابط ملف الصوت MP3">
+            <button onclick="publishSong()" style="width:100%; padding:18px; background:var(--admin-color); color:black; border:none; border-radius:15px; font-weight:900; cursor:pointer; font-size: 1.1rem;">نشر في المكتبة 🚀</button>
         </div>
         <div class="media-card">
-            <h3 style="color:var(--admin-color);">إدارة الحظر 🚫</h3>
-            <div id="banList"></div>
+            <h3 style="color:var(--admin-color);">إدارة قائمة الحظر 🚫</h3>
+            <div id="banList" style="text-align: right;"></div>
         </div>
     </div>
 
     <div id="dev" class="section">
         <div class="media-card">
-            <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:165px; border-radius:50%; border:4px solid var(--main-color);">
-            <h2>مؤيد | MOAYED</h2>
-            <p style="color:var(--admin-color); font-weight:900;">مبـرمج الموقـع 👑</p>
-            <p>العقل المدبر وراء تجربة MA3 PRODUCTIONS. أصنع الواقع الرقمي بلمسة إبداعية فريدة.</p>
+            <div style="position: relative; display: inline-block;">
+                <img src="https://i.ibb.co/fzdVQRWy/327115619d5ba011a178203d964b3dcc-1.jpg" style="width:200px; height:200px; border-radius:50%; border:5px solid var(--main-color); box-shadow: 0 0 50px rgba(79, 172, 254, 0.5);">
+                <div style="position: absolute; bottom: 10px; right: 10px; background: var(--admin-color); color: black; padding: 8px; border-radius: 50%; font-size: 1.5rem;">👑</div>
+            </div>
+            <h2 style="margin-top:30px; font-size: 2.2rem;">مؤيد | MOAYED</h2>
+            <p style="color:var(--admin-color); font-weight:900; font-size: 1.5rem; letter-spacing: 2px;">الـمـبـرمـج الـرئـيـسـي</p>
+            <p style="opacity:0.9; line-height:2; padding: 0 30px; font-size: 1.1rem;">أنا مؤيد، العقل المدبر خلف MA3 PRODUCTIONS. أؤمن بأن البرمجة هي فن تحويل الأفكار إلى واقع رقمي مبهر. هذا الموقع هو ثمرة شغفي بالابتكار والتصميم العصري.</p>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="media-card">
-            <div id="auth-ui"><button onclick="login()" style="padding:15px 30px; border-radius:10px; cursor:pointer;">Sign in with Google</button></div>
+            <div id="auth-ui">
+                <button onclick="login()" style="padding:18px 50px; border-radius:50px; background:white; color:black; font-weight:900; border:none; cursor:pointer; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(255,255,255,0.2);">Sign in with Google</button>
+            </div>
             <div id="user-ui" style="display: none;">
-                <img id="userPhoto" style="width:110px; border-radius:50%; border:4px solid var(--main-color);">
-                <h2 id="userNameDisplay"></h2>
-                <button onclick="logout()" style="color:red; background:none; border:none; cursor:pointer;">خروج</button>
+                <img id="userPhoto" style="width:130px; border-radius:50%; border:4px solid var(--main-color); box-shadow: 0 0 30px var(--main-color);">
+                <h2 id="userNameDisplay" style="margin:25px 0;"></h2>
+                <button onclick="logout()" style="color:#ff4b2b; background:none; border:2px solid #ff4b2b; padding:12px 30px; border-radius:15px; cursor:pointer; font-weight:bold;">تسجيل الخروج</button>
             </div>
         </div>
     </div>
@@ -175,6 +190,7 @@
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+    // بياناتك الخاصة يا مؤيد
     const ADMIN_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2"; 
     const firebaseConfig = {
         apiKey: "AIzaSyDErWmcngtl2kvTG5c3m1hLN0gDF0avtTE",
@@ -192,9 +208,9 @@
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         if(document.getElementById('sideMenu').classList.contains('open')) toggleMenu();
+        window.scrollTo({top:0, behavior:'smooth'});
     };
 
-    // نظام الأغاني (الأصلية + المضافة)
     const staticSongs = [
         { id: "s1", title: "Let It Happen", img: "https://upload.wikimedia.org/wikipedia/en/9/9b/Tame_Impala_-_Currents.png", src: "https://files.catbox.moe/abbogw.oga" },
         { id: "s2", title: "Duvet", img: "https://i.ibb.co/jPWmsn4Z/unnamed.jpg", src: "https://files.catbox.moe/5ry4b7.oga" },
@@ -202,7 +218,6 @@
     ];
 
     let favorites = JSON.parse(localStorage.getItem('ma3_favs')) || [];
-
     window.toggleFav = (id) => {
         if (!auth.currentUser) return alert("سجل دخولك أولاً!");
         favorites = favorites.includes(id) ? favorites.filter(f => f !== id) : [...favorites, id];
@@ -214,33 +229,25 @@
         onValue(ref(db, 'songs'), (snap) => {
             const list = document.getElementById('songsList'); list.innerHTML = '';
             let all = [...staticSongs];
-            snap.forEach(c => { all.push({ id: c.key, ...c.val(), isAdmin: true }); });
+            snap.forEach(c => { all.push({ id: c.key, ...c.val(), isAdminPost: true }); });
             
             list.innerHTML = all.reverse().map(s => `
                 <div class="media-card">
                     <span class="fav-btn ${favorites.includes(s.id)?'active':''}" onclick="toggleFav('${s.id}')">❤</span>
-                    <img src="${s.img}" width="190" style="border-radius:22px;">
-                    <h3>${s.title}</h3>
-                    <audio controls style="width:100%"><source src="${s.src}"></audio>
-                    ${(s.isAdmin && auth.currentUser?.uid === ADMIN_UID) ? `<button onclick="delSong('${s.id}')" style="color:red; background:none; border:none; cursor:pointer; margin-top:10px;">[ حذف ]</button>` : ''}
+                    <img src="${s.img}" width="220" style="border-radius:30px; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+                    <h3 style="margin-top:25px; font-size: 1.4rem;">${s.title}</h3>
+                    <audio controls><source src="${s.src}"></audio>
+                    ${(s.isAdminPost && auth.currentUser?.uid === ADMIN_UID) ? `<button onclick="delSong('${s.id}')" style="color:#ff4b2b; background:none; border:none; cursor:pointer; margin-top:20px; font-weight:bold;">[ حذف من المكتبة ]</button>` : ''}
                 </div>
             `).join('');
 
-            const favList = document.getElementById('favSongsList');
             const favData = all.filter(s => favorites.includes(s.id));
-            favList.innerHTML = favData.length ? favData.map(s => `
-                <div class="media-card"><img src="${s.img}" width="150" style="border-radius:20px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
-            `).join('') : '<p style="opacity:0.4;">لا توجد أغاني مفضلة</p>';
+            document.getElementById('favSongsList').innerHTML = favData.length ? favData.map(s => `
+                <div class="media-card"><img src="${s.img}" width="160" style="border-radius:25px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
+            `).join('') : '<p style="opacity:0.4; padding:60px; font-size: 1.2rem;">لم تضف أي أغاني للمفضلة بعد..</p>';
         });
     }
 
-    window.publishSong = () => {
-        const t = document.getElementById('nsTitle').value, i = document.getElementById('nsImg').value, s = document.getElementById('nsSrc').value;
-        if(t && s) push(ref(db, 'songs'), { title: t, img: i || 'https://via.placeholder.com/150', src: s }).then(() => alert("تم النشر ✅"));
-    };
-    window.delSong = (key) => remove(ref(db, `songs/${key}`));
-
-    // الحساب والآدمن
     onAuthStateChanged(auth, (user) => {
         if (user) {
             document.getElementById('user-ui').style.display = 'block';
@@ -249,41 +256,50 @@
             document.getElementById('userPhoto').src = user.photoURL;
             document.getElementById('sideUserName').innerText = user.displayName;
             document.getElementById('sideUserImg').src = user.photoURL;
-            if(user.uid === ADMIN_UID) {
-                document.getElementById('adminBadge').style.display = 'block';
-                document.getElementById('adminArea').style.display = 'block';
-            }
+            if(user.uid === ADMIN_UID) document.getElementById('adminPanelLink').style.display = 'block';
         }
         renderAll();
     });
 
+    window.publishSong = () => {
+        const t = document.getElementById('nsTitle').value, i = document.getElementById('nsImg').value, s = document.getElementById('nsSrc').value;
+        if(t && s) push(ref(db, 'songs'), { title: t, img: i || 'https://via.placeholder.com/150', src: s }).then(() => { alert("تم النشر بنجاح يا مبرمج مؤيد ✅"); document.querySelectorAll('input').forEach(e=>e.value=''); });
+    };
+    window.delSong = (key) => { if(confirm("هل أنت متأكد من حذف الأغنية؟")) remove(ref(db, `songs/${key}`)); };
     window.login = () => signInWithPopup(auth, new GoogleAuthProvider());
     window.logout = () => signOut(auth).then(() => location.reload());
 
-    // الشات
     window.deleteMsg = (k) => remove(ref(db, `messages/${k}`));
-    window.banUser = (uid, n) => set(ref(db, `bannedUsers/${uid}`), { name: n });
+    window.banUser = (uid, n) => set(ref(db, `bannedUsers/${uid}`), { name: n, date: new Date().toLocaleDateString() });
     window.unbanUser = (uid) => remove(ref(db, `bannedUsers/${uid}`));
 
     onValue(ref(db, 'bannedUsers'), (snap) => {
         const bl = document.getElementById('banList'); bl.innerHTML = '';
-        snap.forEach(c => { bl.innerHTML += `<div>${c.val().name} <button onclick="unbanUser('${c.key}')" style="color:var(--main-color); background:none; border:none; cursor:pointer;">[ فك ]</button></div>`; });
+        snap.forEach(c => { bl.innerHTML += `<div style="padding:15px; border-bottom:1px solid var(--glass); display:flex; justify-content:space-between; align-items:center;"><span>👤 ${c.val().name}</span> <button onclick="unbanUser('${c.key}')" style="color:var(--main-color); background:none; border:1px solid var(--main-color); padding:5px 12px; border-radius:10px; cursor:pointer;">فك الحظر</button></div>`; });
     });
 
     document.getElementById('sendBtn').onclick = async () => {
         const val = document.getElementById('chatInput').value;
         if(!val || !auth.currentUser) return;
         const b = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
-        if(b.exists()) return alert("محظور 🚫");
+        if(b.exists()) return alert("أنت محظور من الدردشة حالياً 🚫");
         push(ref(db, 'messages'), { text: val, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL, uid: auth.currentUser.uid, time: serverTimestamp() });
         document.getElementById('chatInput').value = "";
     };
 
-    onChildAdded(query(ref(db, 'messages'), limitToLast(50)), (data) => {
+    onChildAdded(query(ref(db, 'messages'), limitToLast(60)), (data) => {
         const m = data.val(); const isAdm = m.uid === ADMIN_UID;
+        const isMine = auth.currentUser?.uid === m.uid;
         const msgDiv = document.createElement('div');
-        msgDiv.className = `msg ${auth.currentUser?.uid === m.uid ? 'mine' : ''}`;
-        msgDiv.innerHTML = `<img src="${m.photo}"><div class="msg-text ${isAdm ? 'admin-msg-glow' : ''}">${isAdm ? '<span class="admin-label">مبرمج الموقع 👑</span>' : ''}<small style="font-weight:900; color:${isAdm?'var(--admin-color)':'var(--main-color)'}">${m.name}</small><div>${m.text}</div>${auth.currentUser?.uid === ADMIN_UID ? `<small onclick="deleteMsg('${data.key}')" style="color:red; cursor:pointer;">حذف</small>` : ''}${(auth.currentUser?.uid === ADMIN_UID && !isAdm) ? `<small onclick="banUser('${m.uid}','${m.name}')" style="color:orange; cursor:pointer; margin-right:10px;">حظر</small>` : ''}</div>`;
+        msgDiv.className = `msg ${isMine ? 'mine' : ''}`;
+        msgDiv.innerHTML = `
+            <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
+            <div class="msg-text ${isAdm ? 'admin-msg-body' : ''}">
+                ${isAdm ? '<span class="admin-tag">مبرمج الموقع 👑</span>' : ''}
+                <small style="font-weight:900; color:${isAdm?'var(--admin-color)':'var(--main-color)'}; display:block; margin-bottom:6px;">${m.name}</small>
+                <div>${m.text}</div>
+                ${auth.currentUser?.uid === ADMIN_UID ? `<div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px;"><small onclick="deleteMsg('${data.key}')" style="color:#ff4b2b; cursor:pointer; font-weight:bold;">[حذف]</small> ${!isAdm ? `<small onclick="banUser('${m.uid}','${m.name}')" style="color:#ffa500; cursor:pointer; margin-right:15px; font-weight:bold;">[حظر]</small>` : ''}</div>` : ''}
+            </div>`;
         document.getElementById('chat-box').appendChild(msgDiv);
         document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
     });
