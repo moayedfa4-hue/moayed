@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="OZxxkNI7ZYWW6G_p2hM3_LzBf_4A4A4A4A4A4A4A4A"> 
-    <title>MA3 PRODUCTIONS</title>
+    <title>MA3 PRODUCTIONS | MOAYED</title>
     
     <style>
         :root {
@@ -82,10 +82,7 @@
         .msg-text { background: var(--glass); padding: 12px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.4; position: relative; }
         .msg.mine .msg-text { background: var(--main-color); color: black; font-weight: bold; border-top-right-radius: 2px; }
         
-        /* أزرار الآدمن تظهر لك فقط */
         .admin-tools { display: none; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; gap: 10px; }
-        .del-link { color: #ff4b2b; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
-        .ban-link { color: #ffa500; cursor: pointer; font-size: 0.8rem; font-weight: bold; margin-right: 10px; }
 
         footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 0.8rem; }
     </style>
@@ -93,7 +90,7 @@
 <body>
 
 <header>
-    <div style="font-weight: 900; color: var(--main-color); font-size: 1.3rem; letter-spacing: 1px;">MA3 PRODUCTIONS</div>
+    <div style="font-weight: 900; color: var(--main-color); font-size: 1.3rem;">MA3 PRODUCTIONS</div>
     <div onclick="toggleMenu()" style="font-size:35px; cursor:pointer; color: var(--main-color);">☰</div>
 </header>
 
@@ -132,7 +129,7 @@
         <div class="media-card">
             <img src="https://i.ibb.co/tMYWnFjB/FB-IMG-1768052178966.jpg" style="width:100%; max-width:480px; border-radius:30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
             <h2 style="margin-top:25px; color: var(--main-color);">علي المتميز ✨</h2>
-            <p style="font-size: 1.1rem; line-height:1.8; opacity:0.9; padding: 0 20px;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي يعكس معنى الأخوة الحقيقية.</p>
+            <p style="font-size: 1.1rem; line-height:1.8; opacity:0.9;">الرفيق الذي يفتخر به الجميع، عنوان للأصل الثابت والمواقف المشرفة. سند حقيقي يعكس معنى الأخوة الحقيقية.</p>
         </div>
     </div>
 
@@ -172,7 +169,6 @@
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getDatabase, ref, push, onChildAdded, remove, set, get, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // الآدمن مؤيد
     const ADMIN_UID = "QMXkKgz17qTsjzspnBFvONCvKBC2"; 
 
     const firebaseConfig = {
@@ -198,11 +194,10 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // دوال الإدارة لمؤيد
-    window.deleteMsg = (key) => { if(confirm("حذف هذه الرسالة؟")) remove(ref(db, `messages/${key}`)).then(()=>location.reload()); };
+    window.deleteMsg = (key) => { if(confirm("حذف الرسالة؟")) remove(ref(db, `messages/${key}`)); };
     window.banUser = (uid, name) => {
         if(uid === ADMIN_UID) return alert("لا يمكنك حظر نفسك!");
-        if(confirm(`هل تريد حظر ${name}؟`)) set(ref(db, `bannedUsers/${uid}`), { name: name, time: serverTimestamp() }).then(()=>alert("تم الحظر بنجاح"));
+        if(confirm(`هل تريد حظر ${name}؟`)) set(ref(db, `bannedUsers/${uid}`), { name: name, time: serverTimestamp() }).then(()=>alert("تم الحظر"));
     };
 
     const songs = [
@@ -224,8 +219,8 @@
         document.getElementById('songsList').innerHTML = songs.map(s => `
             <div class="media-card">
                 <span class="fav-btn ${favorites.includes(s.id)?'active':''}" onclick="window.toggleFav(${s.id})">❤</span>
-                <img src="${s.img}" width="190" style="border-radius:20px; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-                <h3 style="margin:15px 0;">${s.title}</h3>
+                <img src="${s.img}" width="190" style="border-radius:20px;">
+                <h3>${s.title}</h3>
                 <audio controls style="width:100%"><source src="${s.src}"></audio>
             </div>
         `).join('');
@@ -235,11 +230,7 @@
     function renderFavs() {
         const favData = songs.filter(s => favorites.includes(s.id));
         document.getElementById('favSongsList').innerHTML = favData.length ? favData.map(s => `
-            <div class="media-card">
-                <img src="${s.img}" width="150" style="border-radius:20px;">
-                <h3>${s.title}</h3>
-                <audio controls><source src="${s.src}"></audio>
-            </div>
+            <div class="media-card"><img src="${s.img}" width="150" style="border-radius:20px;"><h3>${s.title}</h3><audio controls><source src="${s.src}"></audio></div>
         `).join('') : '<p style="opacity:0.5;">المفضلة فارغة</p>';
     }
 
@@ -264,18 +255,11 @@
     const chatBox = document.getElementById('chat-box');
 
     const sendMessage = async () => {
-        if(!auth.currentUser) return alert("يرجى تسجيل الدخول للدردشة!");
+        if(!auth.currentUser) return alert("سجل دخولك!");
         const bannedCheck = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
-        if(bannedCheck.exists()) return alert("عذراً، أنت محظور من الدردشة 🚫");
-
+        if(bannedCheck.exists()) return alert("أنت محظور 🚫");
         if(chatInput.value.trim()) {
-            push(ref(db, 'messages'), {
-                text: chatInput.value,
-                name: auth.currentUser.displayName,
-                photo: auth.currentUser.photoURL,
-                uid: auth.currentUser.uid,
-                time: serverTimestamp()
-            });
+            push(ref(db, 'messages'), { text: chatInput.value, name: auth.currentUser.displayName, photo: auth.currentUser.photoURL, uid: auth.currentUser.uid, time: serverTimestamp() });
             chatInput.value = "";
         }
     };
@@ -283,13 +267,11 @@
     sendBtn.onclick = sendMessage;
     chatInput.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
 
-    // جلب الرسائل وإظهار الأدوات للآدمن
     const q = query(ref(db, 'messages'), limitToLast(50));
     onChildAdded(q, (data) => {
         const m = data.val();
         const key = data.key;
         const isAdmin = auth.currentUser && auth.currentUser.uid === ADMIN_UID;
-        const isMsgAdmin = m.uid === ADMIN_UID;
         const isMine = auth.currentUser && m.uid === auth.currentUser.uid;
         
         const msgDiv = document.createElement('div');
@@ -297,14 +279,15 @@
         msgDiv.innerHTML = `
             <img src="${m.photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}">
             <div class="msg-text">
-                <small style="color:${isMsgAdmin ? 'var(--admin-color)' : (isMine ? 'black' : 'var(--main-color)')}; font-weight:bold; display:block; margin-bottom:2px;">
-                    ${isMsgAdmin ? 'مبرمج الموقع 👑' : m.name}
+                <small style="color:${m.uid === ADMIN_UID ? '#ffd700' : (isMine ? 'black' : '#4facfe')}; font-weight:bold; display:block;">
+                    ${m.uid === ADMIN_UID ? 'مبرمج الموقع 👑' : m.name}
                 </small>
                 ${m.text}
-                <div class="admin-tools" style="${isAdmin ? 'display:flex' : 'none'}">
-                    <span class="del-link" onclick="deleteMsg('${key}')">🗑️ حذف</span>
-                    ${!isMsgAdmin ? `<span class="ban-link" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
-                </div>
+                ${isAdmin ? `
+                <div style="margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px;">
+                    <span style="color:#ff4b2b; cursor:pointer; font-size:0.8rem; font-weight:bold;" onclick="deleteMsg('${key}')">🗑️ حذف</span>
+                    ${m.uid !== ADMIN_UID ? `<span style="color:#ffa500; cursor:pointer; font-size:0.8rem; font-weight:bold; margin-right:15px;" onclick="banUser('${m.uid}', '${m.name}')">🚫 حظر</span>` : ''}
+                </div>` : ''}
             </div>`;
         chatBox.appendChild(msgDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
