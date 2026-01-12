@@ -15,7 +15,7 @@
             --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* تحسين الأداء لزيادة الفريمات */
+        /* زيادة الفريمات وسلاسة الحركة */
         * { 
             box-sizing: border-box; 
             transition: var(--transition); 
@@ -113,7 +113,7 @@
 </header>
 
 <div class="side-menu" id="sideMenu">
-    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق القائمة</div>
+    <div style="padding: 25px; color: #ff4b2b; cursor: pointer; font-weight: bold;" onclick="toggleMenu()">✖ إغلاق</div>
     <div class="menu-profile">
         <div id="adminBadge" class="admin-badge">مبرمج الموقع 👑</div>
         <img id="sideUserImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
@@ -135,7 +135,7 @@
             <h2 style="color: var(--main-color); margin-bottom:15px; font-weight: 800;">الدردشة العامة 💬</h2>
             <div id="chat-box"></div>
             <div style="display: flex; gap: 10px; margin-top:20px;">
-                <input type="text" id="chatInput" placeholder="اكتب رسالة هنا..." style="flex:1; padding:16px; border-radius:18px; background:rgba(255,255,255,0.07); color:white; border:1px solid rgba(255,255,255,0.1); font-size: 1rem;">
+                <input type="text" id="chatInput" placeholder="اكتب رسالة..." style="flex:1; padding:16px; border-radius:18px; background:rgba(255,255,255,0.07); color:white; border:1px solid rgba(255,255,255,0.1); font-size: 1rem;">
                 <button id="sendBtn" style="padding:0 28px; border-radius:18px; background:var(--main-color); border:none; font-weight:900; cursor:pointer; color:black;">إرسال</button>
             </div>
         </div>
@@ -263,7 +263,7 @@
     const sendMessage = async () => {
         if(!auth.currentUser) return alert("سجل دخولك!");
         const bannedCheck = await get(ref(db, `bannedUsers/${auth.currentUser.uid}`));
-        if(bannedCheck.exists()) return alert("أنت محظور من الدردشة 🚫");
+        if(bannedCheck.exists()) return alert("أنت محظور 🚫");
         if(chatInput.value.trim()) {
             push(ref(db, 'messages'), {
                 text: chatInput.value,
