@@ -972,7 +972,7 @@
             };
 
             let usersDb = JSON.parse(localStorage.getItem('siteUsersDatabase')) || [];
-            if(!usersDb.some(u => u.email === userData.email)) {
+            if(!usersDb.some(u => u.email.trim().toLowerCase() === userData.email.trim().toLowerCase())) {
                 usersDb.push(userData);
                 localStorage.setItem('siteUsersDatabase', JSON.stringify(usersDb));
             }
@@ -1088,8 +1088,10 @@
                 let userSubjects = [];
 
                 history.forEach(h => {
-                    userTotalSecs += h.seconds;
-                    if(!userSubjects.includes(h.subject)) userSubjects.push(h.subject);
+                    if (h.userEmail && h.userEmail.trim().toLowerCase() === u.email.trim().toLowerCase()) {
+                        userTotalSecs += h.seconds;
+                        if(!userSubjects.includes(h.subject)) userSubjects.push(h.subject);
+                    }
                 });
 
                 let timeString = formatHoursText(userTotalSecs);
@@ -1268,12 +1270,16 @@
                 hour12: true
             });
             
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userEmail = currentUser ? currentUser.email : "guest";
+            
             const sessionData = {
                 id: Date.now().toString(),
                 subject: subject,
                 seconds: durationInSeconds,
                 date: now.toISOString(),
-                timeStr: timeLabel
+                timeStr: timeLabel,
+                userEmail: userEmail
             };
 
             let history = JSON.parse(localStorage.getItem('studyHistory')) || [];
@@ -1356,7 +1362,12 @@
                 detailedTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#999; font-size:13px;">لا توجد حصص مسجلة في التقرير بعد.</td></tr>`;
             }
 
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const currentEmail = currentUser ? currentUser.email.trim().toLowerCase() : "guest";
+
             history.forEach(item => {
+                if (item.userEmail && item.userEmail.trim().toLowerCase() !== currentEmail) return;
+
                 const itemDate = new Date(item.date);
                 if(isNaN(itemDate.getTime())) return;
 
@@ -1373,6 +1384,8 @@
             });
 
             sortedHistory.forEach(item => {
+                if (item.userEmail && item.userEmail.trim().toLowerCase() !== currentEmail) return;
+
                 const itemDate = new Date(item.date);
                 if(isNaN(itemDate.getTime())) return;
 
@@ -1418,7 +1431,15 @@
         function loadHistory() {
             historyList.innerHTML = "";
             let history = JSON.parse(localStorage.getItem('studyHistory')) || [];
-            history.forEach(session => renderHistoryItem(session));
+            
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const currentEmail = currentUser ? currentUser.email.trim().toLowerCase() : "guest";
+
+            history.forEach(session => {
+                if (session.userEmail && session.userEmail.trim().toLowerCase() === currentEmail) {
+                    renderHistoryItem(session);
+                }
+            });
         }
 
         function renderHistoryItem(session) {
@@ -1466,7 +1487,6 @@
             }, 150);
         }
 
-        // تحسين الأداء وإدارة تموضع شخصيات هالو كيتي لمنع التداخل وحماية الشاشات الصغيرة
         document.addEventListener('DOMContentLoaded', () => {
             if(window.innerWidth < 480){
                 document.querySelectorAll('.kitty-decoration').forEach((e, i) => {
