@@ -176,7 +176,7 @@
 
         .sidebar.open { right: 0; }
 
-        /* 👤 تحسين وتنسيق قسم "الملف الشخصي" وترتيبه بشكل جميل جداً */
+        /* 👤 قسم الملف الشخصي */
         .profile-section {
             display: flex;
             flex-direction: column;
@@ -205,7 +205,6 @@
             transition: transform 0.3s ease;
         }
 
-        /* مأثر تمرير الماوس فوق الصورة الشخصية */
         .profile-avatar-container:hover {
             transform: scale(1.05) rotate(4deg);
         }
@@ -216,7 +215,6 @@
             object-fit: cover;
         }
 
-        /* حاوية لتنسيق الاسم وزر التعديل */
         .profile-name-wrapper {
             display: flex;
             align-items: center;
@@ -232,7 +230,6 @@
             font-size: 17px;
         }
 
-        /* زر القلم لتعديل الاسم بطريقة حلوة ومتناسقة */
         .edit-profile-name-btn {
             background: none;
             border: none;
@@ -251,7 +248,6 @@
             opacity: 0.8;
         }
 
-        /* تصميم حقل الإدخال لتغيير الاسم المخصص */
         .profile-name-input {
             width: 80%;
             padding: 4px 8px;
@@ -273,7 +269,6 @@
             word-break: break-all;
         }
 
-        /* حاوية زر جوجل الأصلي */
         #googleBtnContainer {
             width: 100%;
             display: flex;
@@ -281,7 +276,6 @@
             margin-top: 5px;
         }
 
-        /* 🚪 تحسين وتصغير شكل زر تسجيل الخروج ليكون حلو ومتناسق */
         .logout-btn {
             padding: 8px 18px;
             border: none;
@@ -582,7 +576,6 @@
 
         .display { font-size: 46px; font-weight: bold; color: var(--dark-purple); margin: 15px 0; font-family: monospace; letter-spacing: 2px; }
 
-        /* تـصـلـيـح الـتـجـاوب لـمـنـع الـخـروج عـن الـحـواف بالكامل */
         .inputs-container { 
             display: flex; 
             justify-content: center; 
@@ -608,7 +601,6 @@
         .btn-pause { background-color: #ffe066; color: #fcc419; display: none; }
         .btn-stop { background-color: #ffa8a8; color: #e03131; }
 
-        /* تـصـلـيـح خـانـات الـتـسـجـيـل الـيـدوي وتناسقها مع الشاشات */
         .manual-log-container {
             margin-top: 25px;
             padding-top: 15px;
@@ -918,7 +910,7 @@
             { id: "row10", day: "الخميس", date: "12 يونيو", subject: "الكيمياء العضوية", sheets: "6 شيتات", plan: "• مراجعة شيت 3<br>• حل أسئلة شيت 3" },
             { id: "row11", day: "الجمعة", date: "13 يونيو", subject: "الكيمياء العضوية", sheets: "6 شيتات", plan: "• مراجعة شيت 4<br>• حل أسئلة شيت 4" },
             { id: "row12", day: "السبت", date: "14 يونيو", subject: "الكيمياء العضوية", sheets: "6 شيتات", plan: "• مراجعة شيت 5<br>• حل أسئلة شيت 5" },
-            { id: "row13", day: "الأحد", date: "15 يونيو", subject: "الكيمياء العضوية", sheets: "6 شيتات", plan: "• مراجعة شيت 6<br>• حل أسئلة شيت 6" },
+            { id: "row13", day: "الأحمد", date: "15 يونيو", subject: "الكيمياء العضوية", sheets: "6 شيتات", plan: "• مراجعة شيت 6<br>• حل أسئلة شيت 6" },
             { id: "row14", day: "الاثنين", date: "16 يونيو", subject: "الإحصاء الحيوي", sheets: "4 شيتات", plan: "• مراجعة شيت 1<br>• حل أسئلة شيت 1" },
             { id: "row15", day: "الثلاثاء", date: "17 يونيو", subject: "الإحصاء الحيوي", sheets: "4 شيتات", plan: "• مراجعة شيت 2<br>• حل أسئلة شيت 2" },
             { id: "row16", day: "الأربعاء", date: "18 يونيو", subject: "الإحصاء الحيوي", sheets: "4 شيتات", plan: "• مراجعة شيت 3<br>• حل أسئلة شيت 3" },
@@ -943,7 +935,7 @@
             setTheme(savedTheme);
         };
 
-        /* تهيئة جـوجـل الأصـلـي لـلـنـشـر الـحـقـيـقـي باستخدام الـ Client ID الخاص بك */
+        /* تهيئة جوجل الأصلي للنشر الفعلي */
         function initGoogleAuth() {
             google.accounts.id.initialize({
                 client_id: "531676114142-ct0pn2mufl81nqh6sse56hgr1k75lh9s.apps.googleusercontent.com",
@@ -960,7 +952,6 @@
             );
         }
 
-        // فك تشفير بيانات حساب جوجل القادمة من الخادم (JWT Token)
         function parseJwt(token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -980,7 +971,6 @@
                 initial: responsePayload.name.charAt(0).toUpperCase()
             };
 
-            // تخزين المستخدم في قاعدة بيانات الجهاز
             let usersDb = JSON.parse(localStorage.getItem('siteUsersDatabase')) || [];
             if(!usersDb.some(u => u.email === userData.email)) {
                 usersDb.push(userData);
@@ -988,14 +978,13 @@
             }
 
             localStorage.setItem('currentUser', JSON.stringify(userData));
-            // مسح أي اسم مخصص قديم عند تسجيل دخول حساب جديد لمنع التداخل
             localStorage.removeItem('customProfileName'); 
             checkUserSession();
         }
 
         function handleSignOut() {
             localStorage.removeItem('currentUser');
-            localStorage.removeItem('customProfileName'); // مسح الاسم المخصص عند تسجيل الخروج
+            localStorage.removeItem('customProfileName');
             checkUserSession();
             setTimeout(() => { renderGoogleButton(); }, 100);
         }
@@ -1006,8 +995,6 @@
             const googleBtnContainer = document.getElementById('googleBtnContainer');
             const logoutBtn = document.getElementById('logoutBtn');
             const adminMenuBtn = document.getElementById('adminMenuBtn');
-
-            // جلب الاسم من localStorage في حال كان المستخدم قد عدّله يدوياً
             const savedCustomName = localStorage.getItem('customProfileName');
 
             if (user) {
@@ -1017,7 +1004,6 @@
                     avatarContainer.innerHTML = `<div class="google-user-avatar" style="width:100%; height:100%; font-size:32px; background-color:${user.email === ADMIN_EMAIL ? '#6c5ce7':'#ff85a2'}; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">${user.initial}</div>`;
                 }
                 
-                // عرض الاسم المعدل إن وُجد، وإلا يعرض اسم حساب جوجل الأصلي
                 renderNameArea(savedCustomName ? savedCustomName : user.name);
                 document.getElementById('profileEmail').textContent = user.email;
                 
@@ -1046,7 +1032,6 @@
             }
         }
 
-        // دالة مخصصة لإعادة رسم منطقة الاسم والتحكم في شكلها المتناسق
         function renderNameArea(displayName) {
             const wrapper = document.getElementById('profileNameWrapper');
             wrapper.innerHTML = `
@@ -1055,7 +1040,6 @@
             `;
         }
 
-        // تحويل واجهة الاسم إلى صندوق إدخال (Input) عند الضغط على القلم
         function enableNameEditing() {
             const nameElement = document.getElementById('profileName');
             const currentName = nameElement.textContent;
@@ -1066,7 +1050,6 @@
             input.value = currentName;
             input.className = 'profile-name-input';
 
-            // الحفظ الذكي عند الخروج أو عند النقر على Enter
             input.addEventListener('blur', () => saveCustomName(input.value));
             input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') saveCustomName(input.value);
@@ -1077,12 +1060,10 @@
             input.focus();
         }
 
-        // حفظ الاسم المعدل محلياً وإعادة التنسيق الجميل للبطاقة
         function saveCustomName(inputValue) {
             const trimmedValue = inputValue.trim();
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
-            // تحديد الاسم البديل الافتراضي في حال ترك الحقل فارغاً
             let fallbackName = user ? user.name : "زائر";
             let finalName = trimmedValue !== "" ? trimmedValue : fallbackName;
 
@@ -1476,25 +1457,47 @@
             osc1.type = 'sine'; osc1.frequency.setValueAtTime(523.25, context.currentTime);
             gain1.gain.setValueAtTime(0.3, context.currentTime); gain1.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.4);
             osc1.connect(gain1); gain1.connect(context.destination); osc1.start(); osc1.stop(context.currentTime + 0.4);
+            
+            setTimeout(() => {
+                let osc2 = context.createOscillator(); let gain2 = context.createGain();
+                osc2.type = 'sine'; osc2.frequency.setValueAtTime(659.25, context.currentTime);
+                gain2.gain.setValueAtTime(0.3, context.currentTime); gain2.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.6);
+                osc2.connect(gain2); gain2.connect(context.destination); osc2.start(); osc2.stop(context.currentTime + 0.6);
+            }, 150);
         }
 
+        // تحسين الأداء وإدارة تموضع شخصيات هالو كيتي لمنع التداخل وحماية الشاشات الصغيرة
+        document.addEventListener('DOMContentLoaded', () => {
+            if(window.innerWidth < 480){
+                document.querySelectorAll('.kitty-decoration').forEach((e, i) => {
+                    if(i > 4) e.style.display = 'none';
+                });
+            }
+        });
+
+        document.querySelectorAll('.kitty-decoration, .hellokitty-img').forEach(img => {
+            img.addEventListener('error', () => {
+                img.style.display = 'none';
+            });
+        });
+
         function repositionKitties(){
-         const kitties=document.querySelectorAll('.kitty-decoration');
-         const positions=[
-         ['8%','5%'],['25%','3%'],['45%','6%'],['65%','4%'],['82%','8%'],
-         ['12%','85%'],['32%','88%'],['55%','84%'],['75%','87%'],['90%','80%']
-         ];
-         kitties.forEach((k,i)=>{
-           if(k) {
-               k.style.top=positions[i][0];
-               k.style.left=positions[i][1];
-               k.style.right='auto';
-               k.style.bottom='auto';
-           }
-         });
+            const kitties = document.querySelectorAll('.kitty-decoration');
+            const positions = [
+                ['8%','5%'], ['25%','3%'], ['45%','6%'], ['65%','4%'], ['82%','8%'],
+                ['12%','85%'], ['32%','88%'], ['55%','84%'], ['75%','87%'], ['90%','80%']
+            ];
+            kitties.forEach((k, i) => {
+                if(k) {
+                    k.style.top = positions[i][0];
+                    k.style.left = positions[i][1];
+                    k.style.right = 'auto';
+                    k.style.bottom = 'auto';
+                }
+            });
         }
-        window.addEventListener('load',repositionKitties);
-        window.addEventListener('resize',repositionKitties);
+        window.addEventListener('load', repositionKitties);
+        window.addEventListener('resize', repositionKitties);
     </script>
 </body>
 </html>
