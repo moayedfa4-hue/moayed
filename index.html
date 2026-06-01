@@ -224,7 +224,6 @@
             word-break: break-all;
         }
 
-        /* حاوية زر جوجل الأصلي */
         #googleBtnContainer {
             width: 100%;
             display: flex;
@@ -233,7 +232,7 @@
         }
 
         .logout-btn {
-            padding: 10px 16px;
+            padding: 10px 166px;
             border: none;
             border-radius: 12px;
             font-size: 13px;
@@ -300,7 +299,6 @@
             padding: 3px;
         }
 
-        /* شخصيات هالو كيتي */
         .hellokitty-container {
             margin: 15px 0 5px 0;
             cursor: pointer;
@@ -357,7 +355,6 @@
             animation: kittyJump 0.75s cubic-bezier(0.25, 1, 0.5, 1) !important;
         }
 
-        /* واجهات العرض الكاملة */
         .full-page-overlay {
             position: fixed;
             top: 0;
@@ -396,7 +393,6 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        /* كروت الإحصائيات */
         .stats-container {
             display: flex;
             flex-direction: column;
@@ -525,7 +521,6 @@
 
         .display { font-size: 46px; font-weight: bold; color: var(--dark-purple); margin: 15px 0; font-family: monospace; letter-spacing: 2px; }
 
-        /* تـصـلـيـح الـتـجـاوب لـمـنـع الـخـروج عـن الـحـواف بالكامل */
         .inputs-container { 
             display: flex; 
             justify-content: center; 
@@ -551,7 +546,6 @@
         .btn-pause { background-color: #ffe066; color: #fcc419; display: none; }
         .btn-stop { background-color: #ffa8a8; color: #e03131; }
 
-        /* تـصـلـيـح خـانـات الـتـسـجـيـل الـيـدوي وتناسقها مع الشاشات */
         .manual-log-container {
             margin-top: 25px;
             padding-top: 15px;
@@ -618,7 +612,6 @@
 </head>
 <body>
 
-    <!-- شخصيات هالو كيتي الطائرة والتفاعلية بنفس التأثيرات والسلوك -->
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k1" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k2" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k3" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
@@ -649,7 +642,6 @@
             <div class="profile-name" id="profileName">زائر</div>
             <div class="profile-email" id="profileEmail">لم يتم تسجيل الدخول</div>
             
-            <!-- حاوية أزرار تسجيل الدخول الأصلية من جوجل -->
             <div id="googleBtnContainer"></div>
             <button class="logout-btn" id="logoutBtn" onclick="handleSignOut()">تسجيل الخروج</button>
         </div>
@@ -664,7 +656,6 @@
         <ul class="history-list" id="historyList"></ul>
     </div>
 
-    <!-- لوحة تحكم الأدمن لـ مؤيد للتجربة العملية بعد النشر -->
     <div class="full-page-overlay" id="adminOverlay">
         <div class="overlay-header">
             <h2>⚡ لوحة تحكم المشرف العام (مؤيد)</h2>
@@ -688,7 +679,6 @@
         </div>
     </div>
 
-    <!-- باقي الواجهات المعتمدة -->
     <div class="full-page-overlay" id="scheduleOverlay">
         <div class="overlay-header">
             <h2>📅 جدول المراجعة وحل الأسئلة (من 3 يونيو إلى 27 يونيو)</h2>
@@ -884,11 +874,10 @@
             setTheme(savedTheme);
         };
 
-        /* تهيئة جـوجـل الأصـلـي لـلـنـشـر الـحـقـيـقـي */
         function initGoogleAuth() {
             google.accounts.id.initialize({
-                // استبدل العبارة أدناه بالـ Client ID الحقيقي الخاص بك من Google Cloud Console لتفعيلها بشكل كامل بعد النشر
-                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+                // تم تحديث الـ Client ID الحقيقي الخاص بمؤيد بنجاح هنا
+                client_id: "531676114142-ct0pn2mufl81nqh6sse56hgr1k75lh9s.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
             renderGoogleButton();
@@ -902,7 +891,6 @@
             );
         }
 
-        // فك تشفير بيانات حساب جوجل القادمة من الخادم (JWT Token)
         function parseJwt(token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -922,7 +910,6 @@
                 initial: responsePayload.name.charAt(0).toUpperCase()
             };
 
-            // تخزين المستخدم في قاعدة بيانات الجهاز
             let usersDb = JSON.parse(localStorage.getItem('siteUsersDatabase')) || [];
             if(!usersDb.some(u => u.email === userData.email)) {
                 usersDb.push(userData);
@@ -936,7 +923,6 @@
         function handleSignOut() {
             localStorage.removeItem('currentUser');
             checkUserSession();
-            // إعادة بناء زر جوجل بعد الخروج لتسهيل الدخول مجدداً
             setTimeout(() => { renderGoogleButton(); }, 100);
         }
 
@@ -1350,7 +1336,7 @@
         }
 
         function deleteHistoryItem(id) {
-            if(confirm("هل أنتِ متأكدة من حذف هذا السجل؟")) {
+            if(confirm("هل أنتِ متأكدة من حذف هذا السجل Mom؟")) {
                 let history = JSON.parse(localStorage.getItem('studyHistory')) || [];
                 history = history.filter(item => item.id !== id);
                 localStorage.setItem('studyHistory', JSON.stringify(history));
