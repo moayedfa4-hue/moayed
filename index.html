@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع ضحى لعد ساعات الدراسة</title>
-    <!-- تضمين مكتبة جوجل الرسمية لتسجيل الدخول الأصلي -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         /* المتغيرات الأساسية للمظهر الافتراضي (الوردي) */
@@ -676,7 +675,6 @@
 </head>
 <body>
 
-    <!-- شخصيات هالو كيتي الطائرة والتفاعلية بنفس التأثيرات والسلوك -->
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k1" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k2" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k3" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
@@ -696,7 +694,6 @@
     </header>
 
     <div class="sidebar" id="sidebar">
-        <!-- 👤 قسم الملف الشخصي المطور والمرتب بشكل أنيق -->
         <div class="profile-section" id="profileSection">
             <div class="profile-avatar-container" id="avatarContainer">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="defaultSvgAvatar">
@@ -706,7 +703,6 @@
                 </svg>
             </div>
             
-            <!-- حاوية الاسم مع القلم لتعديل الاسم بشكل منسق وبطريقة حلوة -->
             <div class="profile-name-wrapper" id="profileNameWrapper">
                 <div class="profile-name" id="profileName">زائر</div>
                 <button class="edit-profile-name-btn" onclick="enableNameEditing()" title="تعديل الاسم">✏️</button>
@@ -714,10 +710,8 @@
             
             <div class="profile-email" id="profileEmail">لم يتم تسجيل الدخول</div>
             
-            <!-- حاوية أزرار تسجيل الدخول الأصلية من جوجل -->
             <div id="googleBtnContainer"></div>
             
-            <!-- زر تسجيل الخروج الأنيق والمتناسق أسفل البطاقة الشخصية مباشرةً -->
             <button class="logout-btn" id="logoutBtn" onclick="handleSignOut()">تسجيل الخروج 🚪</button>
         </div>
 
@@ -731,7 +725,6 @@
         <ul class="history-list" id="historyList"></ul>
     </div>
 
-    <!-- لوحة تحكم الأدمن لـ مؤيد للتجربة العملية بعد النشر -->
     <div class="full-page-overlay" id="adminOverlay">
         <div class="overlay-header">
             <h2>⚡ لوحة تحكم المشرف العام (مؤيد)</h2>
@@ -755,7 +748,6 @@
         </div>
     </div>
 
-    <!-- باقي الواجهات المعتمدة -->
     <div class="full-page-overlay" id="scheduleOverlay">
         <div class="overlay-header">
             <h2>📅 جدول المراجعة وحل الأسئلة (من 3 يونيو إلى 27 يونيو)</h2>
@@ -951,10 +943,10 @@
             setTheme(savedTheme);
         };
 
-        /* تهيئة جـوجـل الأصـلـي لـلـنـشـر الـحـقـيـقـي */
+        /* تهيئة جـوجـل الأصـلـي لـلـنـشـر الـحـقـيـقـي باستخدام الـ Client ID الخاص بك */
         function initGoogleAuth() {
             google.accounts.id.initialize({
-                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+                client_id: "531676114142-ct0pn2mufl81nqh6sse56hgr1k75lh9s.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
             renderGoogleButton();
@@ -1030,7 +1022,7 @@
                 document.getElementById('profileEmail').textContent = user.email;
                 
                 googleBtnContainer.style.display = "none";
-                logoutBtn.style.display = "inline-block"; // تعديل للحفاظ على التناسق البيضاوي
+                logoutBtn.style.display = "inline-block"; 
 
                 if (user.email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                     adminMenuBtn.style.display = "block";
