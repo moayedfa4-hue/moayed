@@ -177,21 +177,23 @@
 
         .sidebar.open { right: 0; }
 
+        /* 👤 تحسين وتنسيق قسم "الملف الشخصي" وترتيبه بشكل جميل جداً */
         .profile-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
-            background: var(--light-color);
+            padding: 20px 15px;
+            background: linear-gradient(180deg, var(--light-color), #ffffff);
             border-radius: 20px;
-            border: 1px solid var(--soft-color);
+            border: 2px solid var(--soft-color);
             margin-bottom: 10px;
             text-align: center;
+            box-shadow: inset 0 0 8px rgba(255, 133, 162, 0.05);
         }
 
         .profile-avatar-container {
-            width: 80px;
-            height: 80px;
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
             overflow: hidden;
             border: 3px solid var(--primary-color);
@@ -199,8 +201,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        /* مأثر تمرير الماوس فوق الصورة الشخصية */
+        .profile-avatar-container:hover {
+            transform: scale(1.05) rotate(4deg);
         }
 
         .profile-avatar-container svg, .profile-avatar-container img {
@@ -209,21 +217,64 @@
             object-fit: cover;
         }
 
+        /* حاوية لتنسيق الاسم وزر التعديل */
+        .profile-name-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            width: 100%;
+        }
+
         .profile-name {
             font-weight: bold;
             color: var(--dark-purple);
-            font-size: 16px;
-            margin-bottom: 4px;
+            font-size: 17px;
+        }
+
+        /* زر القلم لتعديل الاسم بطريقة حلوة ومتناسقة */
+        .edit-profile-name-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--primary-color);
+            transition: transform 0.2s, opacity 0.2s;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-profile-name-btn:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+
+        /* تصميم حقل الإدخال لتغيير الاسم المخصص */
+        .profile-name-input {
+            width: 80%;
+            padding: 4px 8px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--text-color);
+            background-color: var(--sidebar-bg);
+            outline: none;
         }
 
         .profile-email {
             font-size: 12px;
             color: var(--text-color);
-            opacity: 0.8;
-            margin-bottom: 10px;
+            opacity: 0.75;
+            margin-bottom: 12px;
             word-break: break-all;
         }
 
+        /* حاوية زر جوجل الأصلي */
         #googleBtnContainer {
             width: 100%;
             display: flex;
@@ -231,18 +282,26 @@
             margin-top: 5px;
         }
 
+        /* 🚪 تحسين وتصغير شكل زر تسجيل الخروج ليكون حلو ومتناسق */
         .logout-btn {
-            padding: 10px 166px;
+            padding: 8px 18px;
             border: none;
-            border-radius: 12px;
-            font-size: 13px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             background-color: #ffa8a8;
             color: #e03131;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            width: 100%;
+            box-shadow: 0 3px 8px rgba(224, 49, 49, 0.15);
+            width: auto;
             display: none;
+            transition: all 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #ffc9c9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(224, 49, 49, 0.25);
         }
 
         .sidebar-nav-btn {
@@ -299,6 +358,7 @@
             padding: 3px;
         }
 
+        /* شخصيات هالو كيتي */
         .hellokitty-container {
             margin: 15px 0 5px 0;
             cursor: pointer;
@@ -355,6 +415,7 @@
             animation: kittyJump 0.75s cubic-bezier(0.25, 1, 0.5, 1) !important;
         }
 
+        /* واجهات العرض الكاملة */
         .full-page-overlay {
             position: fixed;
             top: 0;
@@ -393,6 +454,7 @@
             display: flex; justify-content: center; align-items: center;
         }
 
+        /* كروت الإحصائيات */
         .stats-container {
             display: flex;
             flex-direction: column;
@@ -521,6 +583,7 @@
 
         .display { font-size: 46px; font-weight: bold; color: var(--dark-purple); margin: 15px 0; font-family: monospace; letter-spacing: 2px; }
 
+        /* تـصـلـيـح الـتـجـاوب لـمـنـع الـخـروج عـن الـحـواف بالكامل */
         .inputs-container { 
             display: flex; 
             justify-content: center; 
@@ -546,6 +609,7 @@
         .btn-pause { background-color: #ffe066; color: #fcc419; display: none; }
         .btn-stop { background-color: #ffa8a8; color: #e03131; }
 
+        /* تـصـلـيـح خـانـات الـتـسـجـيـل الـيـدوي وتناسقها مع الشاشات */
         .manual-log-container {
             margin-top: 25px;
             padding-top: 15px;
@@ -612,6 +676,7 @@
 </head>
 <body>
 
+    <!-- شخصيات هالو كيتي الطائرة والتفاعلية بنفس التأثيرات والسلوك -->
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k1" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k2" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
     <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-decoration k3" alt="Hello Kitty Decor" onclick="animateDecorationKitty(this)">
@@ -631,6 +696,7 @@
     </header>
 
     <div class="sidebar" id="sidebar">
+        <!-- 👤 قسم الملف الشخصي المطور والمرتب بشكل أنيق -->
         <div class="profile-section" id="profileSection">
             <div class="profile-avatar-container" id="avatarContainer">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="defaultSvgAvatar">
@@ -639,11 +705,20 @@
                     <path d="M4 19C4 15.5 7.5 14 12 14C16.5 14 20 15.5 20 19C20 20 19 21 18 21H6C5 21 4 20 4 19Z" fill="#ffffff"/>
                 </svg>
             </div>
-            <div class="profile-name" id="profileName">زائر</div>
+            
+            <!-- حاوية الاسم مع القلم لتعديل الاسم بشكل منسق وبطريقة حلوة -->
+            <div class="profile-name-wrapper" id="profileNameWrapper">
+                <div class="profile-name" id="profileName">زائر</div>
+                <button class="edit-profile-name-btn" onclick="enableNameEditing()" title="تعديل الاسم">✏️</button>
+            </div>
+            
             <div class="profile-email" id="profileEmail">لم يتم تسجيل الدخول</div>
             
+            <!-- حاوية أزرار تسجيل الدخول الأصلية من جوجل -->
             <div id="googleBtnContainer"></div>
-            <button class="logout-btn" id="logoutBtn" onclick="handleSignOut()">تسجيل الخروج</button>
+            
+            <!-- زر تسجيل الخروج الأنيق والمتناسق أسفل البطاقة الشخصية مباشرةً -->
+            <button class="logout-btn" id="logoutBtn" onclick="handleSignOut()">تسجيل الخروج 🚪</button>
         </div>
 
         <button class="sidebar-nav-btn" id="adminMenuBtn" style="display: none; background-color: #d6bfff; border-color: #b19ffb;" onclick="openOverlay('adminOverlay')">⚡ لوحة تحكم الأدمن (مؤيد)</button>
@@ -656,6 +731,7 @@
         <ul class="history-list" id="historyList"></ul>
     </div>
 
+    <!-- لوحة تحكم الأدمن لـ مؤيد للتجربة العملية بعد النشر -->
     <div class="full-page-overlay" id="adminOverlay">
         <div class="overlay-header">
             <h2>⚡ لوحة تحكم المشرف العام (مؤيد)</h2>
@@ -679,6 +755,7 @@
         </div>
     </div>
 
+    <!-- باقي الواجهات المعتمدة -->
     <div class="full-page-overlay" id="scheduleOverlay">
         <div class="overlay-header">
             <h2>📅 جدول المراجعة وحل الأسئلة (من 3 يونيو إلى 27 يونيو)</h2>
@@ -713,7 +790,7 @@
             <div class="stats-container">
                 <div class="stat-card">
                     <h4>قريتي اليوم ⏱️</h4>
-                    <p id="statsToday">0 ساعة</p>
+                    <p id="statsToday">0 ساعت</p>
                 </div>
                 <div class="stat-card">
                     <h4>قريتي هذا الأسبوع 📅</h4>
@@ -874,10 +951,10 @@
             setTheme(savedTheme);
         };
 
+        /* تهيئة جـوجـل الأصـلـي لـلـنـشـر الـحـقـيـقـي */
         function initGoogleAuth() {
             google.accounts.id.initialize({
-                // تم تحديث الـ Client ID الحقيقي الخاص بمؤيد بنجاح هنا
-                client_id: "531676114142-ct0pn2mufl81nqh6sse56hgr1k75lh9s.apps.googleusercontent.com",
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
             renderGoogleButton();
@@ -891,6 +968,7 @@
             );
         }
 
+        // فك تشفير بيانات حساب جوجل القادمة من الخادم (JWT Token)
         function parseJwt(token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -910,6 +988,7 @@
                 initial: responsePayload.name.charAt(0).toUpperCase()
             };
 
+            // تخزين المستخدم في قاعدة بيانات الجهاز
             let usersDb = JSON.parse(localStorage.getItem('siteUsersDatabase')) || [];
             if(!usersDb.some(u => u.email === userData.email)) {
                 usersDb.push(userData);
@@ -917,11 +996,14 @@
             }
 
             localStorage.setItem('currentUser', JSON.stringify(userData));
+            // مسح أي اسم مخصص قديم عند تسجيل دخول حساب جديد لمنع التداخل
+            localStorage.removeItem('customProfileName'); 
             checkUserSession();
         }
 
         function handleSignOut() {
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('customProfileName'); // مسح الاسم المخصص عند تسجيل الخروج
             checkUserSession();
             setTimeout(() => { renderGoogleButton(); }, 100);
         }
@@ -929,23 +1011,26 @@
         function checkUserSession() {
             const user = JSON.parse(localStorage.getItem('currentUser'));
             const avatarContainer = document.getElementById('avatarContainer');
-            const nameTxt = document.getElementById('profileName');
-            const emailTxt = document.getElementById('profileEmail');
             const googleBtnContainer = document.getElementById('googleBtnContainer');
             const logoutBtn = document.getElementById('logoutBtn');
             const adminMenuBtn = document.getElementById('adminMenuBtn');
+
+            // جلب الاسم من localStorage في حال كان المستخدم قد عدّله يدوياً
+            const savedCustomName = localStorage.getItem('customProfileName');
 
             if (user) {
                 if(user.avatar) {
                     avatarContainer.innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
                 } else {
-                    avatarContainer.innerHTML = `<div class="google-user-avatar" style="width:100%; height:100%; font-size:32px; background-color:${user.email === ADMIN_EMAIL ? '#6c5ce7':'#ff85a2'}">${user.initial}</div>`;
+                    avatarContainer.innerHTML = `<div class="google-user-avatar" style="width:100%; height:100%; font-size:32px; background-color:${user.email === ADMIN_EMAIL ? '#6c5ce7':'#ff85a2'}; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">${user.initial}</div>`;
                 }
-                nameTxt.textContent = user.name;
-                emailTxt.textContent = user.email;
+                
+                // عرض الاسم المعدل إن وُجد، وإلا يعرض اسم حساب جوجل الأصلي
+                renderNameArea(savedCustomName ? savedCustomName : user.name);
+                document.getElementById('profileEmail').textContent = user.email;
                 
                 googleBtnContainer.style.display = "none";
-                logoutBtn.style.display = "block";
+                logoutBtn.style.display = "inline-block"; // تعديل للحفاظ على التناسق البيضاوي
 
                 if (user.email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                     adminMenuBtn.style.display = "block";
@@ -960,12 +1045,57 @@
                         <circle cx="12" cy="8" r="4" fill="#ffffff"/>
                         <path d="M4 19C4 15.5 7.5 14 12 14C16.5 14 20 15.5 20 19C20 20 19 21 18 21H6C5 21 4 20 4 19Z" fill="#ffffff"/>
                     </svg>`;
-                nameTxt.textContent = "زائر";
-                emailTxt.textContent = "لم يتم تسجيل الدخول";
+                
+                renderNameArea(savedCustomName ? savedCustomName : "زائر");
+                document.getElementById('profileEmail').textContent = "لم يتم تسجيل الدخول";
                 googleBtnContainer.style.display = "flex";
                 logoutBtn.style.display = "none";
                 adminMenuBtn.style.display = "none";
             }
+        }
+
+        // دالة مخصصة لإعادة رسم منطقة الاسم والتحكم في شكلها المتناسق
+        function renderNameArea(displayName) {
+            const wrapper = document.getElementById('profileNameWrapper');
+            wrapper.innerHTML = `
+                <div class="profile-name" id="profileName">${displayName}</div>
+                <button class="edit-profile-name-btn" onclick="enableNameEditing()" title="تعديل الاسم">✏️</button>
+            `;
+        }
+
+        // تحويل واجهة الاسم إلى صندوق إدخال (Input) عند الضغط على القلم
+        function enableNameEditing() {
+            const nameElement = document.getElementById('profileName');
+            const currentName = nameElement.textContent;
+            const wrapper = document.getElementById('profileNameWrapper');
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentName;
+            input.className = 'profile-name-input';
+
+            // الحفظ الذكي عند الخروج أو عند النقر على Enter
+            input.addEventListener('blur', () => saveCustomName(input.value));
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') saveCustomName(input.value);
+            });
+
+            wrapper.innerHTML = "";
+            wrapper.appendChild(input);
+            input.focus();
+        }
+
+        // حفظ الاسم المعدل محلياً وإعادة التنسيق الجميل للبطاقة
+        function saveCustomName(inputValue) {
+            const trimmedValue = inputValue.trim();
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // تحديد الاسم البديل الافتراضي في حال ترك الحقل فارغاً
+            let fallbackName = user ? user.name : "زائر";
+            let finalName = trimmedValue !== "" ? trimmedValue : fallbackName;
+
+            localStorage.setItem('customProfileName', finalName);
+            renderNameArea(finalName);
         }
 
         function buildAdminPanel() {
@@ -1336,7 +1466,7 @@
         }
 
         function deleteHistoryItem(id) {
-            if(confirm("هل أنتِ متأكدة من حذف هذا السجل Mom؟")) {
+            if(confirm("هل أنتِ متأكدة من حذف هذا السجل؟")) {
                 let history = JSON.parse(localStorage.getItem('studyHistory')) || [];
                 history = history.filter(item => item.id !== id);
                 localStorage.setItem('studyHistory', JSON.stringify(history));
